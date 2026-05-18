@@ -47,176 +47,61 @@
             z-index: 10;
         }
         
-        .header-brand {
-            display: flex;
-            align-items: center;
-        }
-        
-        .header-logo {
-            height: 42px;
-            width: auto;
-            display: block;
-        }
-
+        .header-brand { display: flex; align-items: center; }
+        .header-logo { height: 42px; width: auto; display: block; }
         .header-actions { display: flex; gap: 4px; }
         .btn-icon { background: none; border: none; color: white; font-size: 20px; cursor: pointer; padding: 6px; transition: transform 0.2s;}
         .btn-icon:hover { transform: scale(1.1); }
         .btn-icon:active { transform: scale(0.9); }
 
-        .stats-bar {
-            background: var(--primary-light);
-            color: white;
-            display: flex;
-            justify-content: space-around;
-            padding: 10px;
-            font-size: 12px;
-            text-align: center;
-        }
+        .stats-bar { background: var(--primary-light); color: white; display: flex; justify-content: space-around; padding: 10px; font-size: 12px; text-align: center; }
         .stats-bar div span { display: block; font-size: 16px; font-weight: bold; margin-top: 2px;}
 
-        #action-hint {
-            text-align: center; padding: 6px; font-size: 12px; font-weight: bold; border-bottom: 1px solid #ddd;
-            transition: background 0.3s, color 0.3s;
-        }
+        #action-hint { text-align: center; padding: 6px; font-size: 12px; font-weight: bold; border-bottom: 1px solid #ddd; transition: background 0.3s, color 0.3s; }
 
-        .app-content {
-            flex: 1;
-            overflow-y: auto;
-            padding: 15px;
-            padding-bottom: 80px; 
-        }
+        .app-content { flex: 1; overflow-y: auto; padding: 15px; padding-bottom: 80px; }
 
-        .country-card {
-            background: var(--card);
-            border-radius: 12px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            overflow: hidden;
-        }
-        .country-header {
-            padding: 10px 15px;
-            background: #fafafa;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .country-title {
-            font-weight: 600;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-        }
+        .country-card { background: var(--card); border-radius: 12px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); overflow: hidden; }
+        .country-header { padding: 10px 15px; background: #fafafa; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+        .country-title { font-weight: 600; font-size: 16px; display: flex; align-items: center; }
+        .flag { font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif; font-size: 1.3em; margin-right: 6px; display: inline-block; }
+        .country-header-info { text-align: right; font-size: 11px; color: #777; font-weight: 600; }
+        
+        .progress-wrapper { width: 70px; background: #e0e0e0; border-radius: 4px; height: 6px; margin-top: 5px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--tengo-bg); transition: width 0.3s ease; }
 
-        .flag {
-            font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
-            font-size: 1.3em;
-            margin-right: 6px;
-            display: inline-block;
-        }
-
-        .country-header-info {
-            text-align: right;
-            font-size: 11px;
-            color: #777;
-            font-weight: 600;
-        }
-        .progress-wrapper {
-            width: 70px;
-            background: #e0e0e0;
-            border-radius: 4px;
-            height: 6px;
-            margin-top: 5px;
-            overflow: hidden;
-        }
-        .progress-fill {
-            height: 100%;
-            background: var(--tengo-bg);
-            transition: width 0.3s ease;
-        }
-
-        .stickers-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 6px;
-            padding: 12px;
-        }
-
-        .sticker {
-            aspect-ratio: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 14px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.1s;
-            -webkit-touch-callout: none;
-            user-select: none;
-        }
+        .stickers-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; padding: 12px; }
+        .sticker { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px; border-radius: 8px; cursor: pointer; transition: transform 0.1s; -webkit-touch-callout: none; user-select: none; }
         .sticker:active { transform: scale(0.9); }
         
         .falta { background: var(--falta-bg); color: var(--falta-text); border: 2px solid var(--falta-border); }
         .tengo { background: var(--tengo-bg); color: var(--tengo-text); border: 2px solid var(--tengo-bg); }
         .repetida { background: var(--repe-bg); color: var(--repe-text); border: 2px solid #ffeb3b; position: relative; }
-        
-        .repetida::after {
-            content: attr(data-rep); 
-            position: absolute; top: -6px; right: -6px; background: #ffeb3b; color: #000;
-            width: 18px; height: 18px; border-radius: 50%; font-size: 11px; display: flex;
-            align-items: center; justify-content: center; border: 1px solid rgba(0,0,0,0.2); font-weight: bold;
-        }
+        .repetida::after { content: attr(data-rep); position: absolute; top: -6px; right: -6px; background: #ffeb3b; color: #000; width: 18px; height: 18px; border-radius: 50%; font-size: 11px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(0,0,0,0.2); font-weight: bold; }
 
-        .bottom-nav {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            background: white;
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
-            padding-bottom: env(safe-area-inset-bottom, 10px);
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-            border-top: 1px solid #eee;
-        }
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: #888;
-            font-size: 11px;
-            cursor: pointer;
-            width: 33%;
-            border: none;
-            background: transparent;
-        }
+        .bottom-nav { position: absolute; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 10px 0; padding-bottom: env(safe-area-inset-bottom, 10px); box-shadow: 0 -2px 10px rgba(0,0,0,0.05); border-top: 1px solid #eee; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: #888; font-size: 11px; cursor: pointer; width: 33%; border: none; background: transparent; }
         .nav-item.active { color: var(--primary); font-weight: bold; }
         .nav-item span.icon { font-size: 22px; margin-bottom: 4px; }
 
-        .fab {
-            position: absolute;
-            bottom: 75px;
-            right: 20px;
-            background: var(--accent);
-            color: white;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 10px rgba(37, 211, 102, 0.4);
-            cursor: pointer;
-            border: none;
-            transition: transform 0.2s;
-            z-index: 100;
-        }
+        .fab { position: absolute; bottom: 75px; right: 20px; background: var(--accent); color: white; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.4); cursor: pointer; border: none; transition: transform 0.2s; z-index: 100; }
         .fab:active { transform: scale(0.9); }
         .fab svg { width: 26px; height: 26px; }
 
         #toast { visibility: hidden; min-width: 200px; background-color: rgba(0,0,0,0.8); color: #fff; text-align: center; border-radius: 20px; padding: 12px; position: absolute; z-index: 200; left: 50%; bottom: 140px; transform: translateX(-50%); font-size: 14px; }
         #toast.show { visibility: visible; animation: fadein 0.3s, fadeout 0.3s 2s forwards; }
+        
+        /* ESTILOS DEL MODAL DE BIENVENIDA */
+        #welcome-modal { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; display: flex; align-items: center; justify-content: center; visibility: hidden; opacity: 0; transition: opacity 0.3s; }
+        #welcome-modal.show { visibility: visible; opacity: 1; }
+        .modal-content { background: white; padding: 25px; border-radius: 16px; width: 85%; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .modal-content h2 { margin-top: 0; color: var(--primary); font-size: 22px; }
+        .modal-content p { color: #555; font-size: 14px; margin-bottom: 20px; }
+        .modal-btn { display: block; width: 100%; padding: 14px; margin-bottom: 10px; border: none; border-radius: 8px; font-weight: bold; font-size: 15px; cursor: pointer; transition: transform 0.1s; }
+        .modal-btn:active { transform: scale(0.97); }
+        .btn-blanco { background: var(--accent); color: white; }
+        .btn-pedro { background: var(--primary-light); color: white; }
+
         @keyframes fadein { from {opacity: 0; bottom: 120px;} to {opacity: 1; bottom: 140px;} }
         @keyframes fadeout { from {opacity: 1; bottom: 140px;} to {opacity: 0; bottom: 120px;} }
     </style>
@@ -226,6 +111,16 @@
     <script id="preloaded-data">const PRELOADED_DATA = null; const EXPORT_TIME = 0; const PRELOADED_VERSION = null;</script>
 
     <div class="app-container">
+        
+        <div id="welcome-modal">
+            <div class="modal-content">
+                <h2>¡Bienvenido a Cambaiton!</h2>
+                <p>¿Cómo deseas iniciar tu álbum en este dispositivo?</p>
+                <button class="modal-btn btn-blanco" onclick="iniciarEnBlanco()">✨ Empezar álbum en blanco</button>
+                <button class="modal-btn btn-pedro" onclick="iniciarConDatosDePedro()">📂 Cargar progreso de Pedro</button>
+            </div>
+        </div>
+
         <div class="app-header">
             <div class="header-brand">
                 <svg class="header-logo" viewBox="0 0 240 45" xmlns="http://www.w3.org/2000/svg">
@@ -239,10 +134,10 @@
                 </svg>
             </div>
             <div class="header-actions">
-                <button class="btn-icon" onclick="deshacer()" title="Deshacer (Atrás)">↩️</button>
-                <button class="btn-icon" onclick="rehacer()" title="Rehacer (Adelante)">↪️</button>
-                <button class="btn-icon" onclick="exportarHTML()" title="Guardar Copia Local">💾</button>
-                <button class="btn-icon" onclick="resetApp()" title="Resetear Datos a Versión Original">🔄</button>
+                <button class="btn-icon" onclick="deshacer()" title="Deshacer">↩️</button>
+                <button class="btn-icon" onclick="rehacer()" title="Rehacer">↪️</button>
+                <button class="btn-icon" onclick="exportarHTML()" title="Guardar Copia">💾</button>
+                <button class="btn-icon" onclick="resetApp()" title="Elegir Perfil de Nuevo">🔄</button>
             </div>
         </div>
 
@@ -263,15 +158,9 @@
         </button>
 
         <div class="bottom-nav">
-            <button class="nav-item active" onclick="setFilter('all', this)">
-                <span class="icon">📖</span> Álbum
-            </button>
-            <button class="nav-item" onclick="setFilter('missing', this)">
-                <span class="icon">❌</span> Faltantes
-            </button>
-            <button class="nav-item" onclick="setFilter('duplicates', this)">
-                <span class="icon">✅</span> Repetidas
-            </button>
+            <button class="nav-item active" onclick="setFilter('all', this)"><span class="icon">📖</span> Álbum</button>
+            <button class="nav-item" onclick="setFilter('missing', this)"><span class="icon">❌</span> Faltantes</button>
+            <button class="nav-item" onclick="setFilter('duplicates', this)"><span class="icon">✅</span> Repetidas</button>
         </div>
 
         <div id="toast">¡Lista copiada con éxito!</div>
@@ -400,133 +289,94 @@ FIFA	FIFA	OK	VERDADERO	VERDADERO	VERDADERO	FALSO	VERDADERO	FALSO	VERDADERO	VERDA
 
         let inventory = {};
         let currentFilter = 'all';
-
         let undoStack = [];
         let redoStack = [];
         let appVersion = 1;
+        
+        // Llave universal para todos
+        const savedKey = 'cambaiton_app_unified';
 
         function initApp() {
-            const savedKey = 'panini_app_vf_final_v10';
-            const savedTime = localStorage.getItem(savedKey + '_time') || 0;
-            
-            if (typeof PRELOADED_VERSION !== 'undefined' && PRELOADED_VERSION !== null) {
-                appVersion = PRELOADED_VERSION;
+            // Revisamos si este celular ya tiene un álbum guardado
+            if (localStorage.getItem(savedKey)) {
+                inventory = JSON.parse(localStorage.getItem(savedKey));
+                iniciarInterfazNormal();
             } else {
-                appVersion = parseInt(localStorage.getItem('panini_app_vf_version')) || 1;
+                // Si es un celular nuevo, mostramos la pantalla de bienvenida
+                document.getElementById('welcome-modal').classList.add('show');
             }
-
-            if (typeof PRELOADED_DATA !== 'undefined' && PRELOADED_DATA !== null && typeof EXPORT_TIME !== 'undefined' && EXPORT_TIME > savedTime) {
-                inventory = PRELOADED_DATA;
-                localStorage.setItem(savedKey, JSON.stringify(inventory));
-                localStorage.setItem(savedKey + '_time', EXPORT_TIME);
-                localStorage.setItem('panini_app_vf_version', appVersion);
-            } else {
-                const saved = localStorage.getItem(savedKey);
-                if (saved) {
-                    inventory = JSON.parse(saved);
-                } else {
-                    parseExcelData(csvDataVF);
-                    localStorage.setItem(savedKey + '_time', Date.now());
-                }
-            }
-            
-            document.title = `Cambaiton App V${appVersion}`;
-            renderGrid();
-            setFilter('all', document.querySelector('.nav-item.active'));
         }
 
-        function parseExcelData(data) {
+        // OPCIÓN A: Empezar en blanco
+        function iniciarEnBlanco() {
+            COUNTRIES.forEach(c => {
+                inventory[c.s] = {};
+                let isFifa = c.s === 'FIFA';
+                let max = 20; let start = isFifa ? 0 : 1; let prefix = isFifa ? 'FW' : '';
+                for (let i = start; i < start + max; i++) {
+                    let numStr = isFifa ? `${prefix}${i.toString().padStart(2, '0')}` : i.toString();
+                    inventory[c.s][numStr] = 0; 
+                }
+            });
+            guardarYContinuar();
+        }
+
+        // OPCIÓN B: Cargar progreso original (tu Excel)
+        function iniciarConDatosDePedro() {
             let db = {};
-            const lines = data.trim().split('\n');
+            const lines = csvDataVF.trim().split('\n');
             for(let i = 1; i < lines.length; i++) {
                 let cols = lines[i].split('\t');
                 let sigla = cols[1] ? cols[1].trim() : '';
                 let est = cols[2] ? cols[2].trim().toUpperCase() : '';
                 if(!sigla || sigla === 'SIGLA') continue;
-
                 if(!db[sigla]) db[sigla] = { faltan: [], repetidas: [] };
-
                 let isFifa = (sigla === 'FIFA');
                 for(let j = 1; j <= 20; j++) {
                     let val = cols[2+j] ? cols[2+j].trim().toUpperCase() : '';
                     let numStr = isFifa ? "FW" + (j-1).toString().padStart(2, '0') : j.toString();
-                    
                     let isFalse = (val === 'FALSE' || val === 'FALSO' || val === '0' || val === '');
                     let isTrue = (val === 'TRUE' || val === 'VERDADERO' || val === '1');
-                    
                     if(est === 'OK' && isFalse) db[sigla].faltan.push(numStr);
                     if(est === 'RE' && isTrue) db[sigla].repetidas.push(numStr);
                 }
             }
-
             COUNTRIES.forEach(c => {
                 inventory[c.s] = {};
                 let isFifa = c.s === 'FIFA';
-                let max = 20;
-                let start = isFifa ? 0 : 1;
-                let prefix = isFifa ? 'FW' : '';
-
+                let max = 20; let start = isFifa ? 0 : 1; let prefix = isFifa ? 'FW' : '';
                 for (let i = start; i < start + max; i++) {
                     let numStr = isFifa ? `${prefix}${i.toString().padStart(2, '0')}` : i.toString();
                     let state = 1; 
-                    
                     if (db[c.s] && db[c.s].faltan.includes(numStr)) state = 0; 
                     else if (db[c.s] && db[c.s].repetidas.includes(numStr)) state = 2; 
-                    
                     inventory[c.s][numStr] = state;
                 }
             });
+            guardarYContinuar();
         }
 
-        function exportarHTML() {
-            let faltan = 0; let repetidas = 0;
-            Object.values(inventory).forEach(country => {
-                Object.values(country).forEach(val => {
-                    if(val === 0) faltan++;
-                    if(val > 1) repetidas += (val - 1); 
-                });
-            });
+        function guardarYContinuar() {
+            localStorage.setItem(savedKey, JSON.stringify(inventory));
+            document.getElementById('welcome-modal').classList.remove('show');
+            iniciarInterfazNormal();
+        }
 
-            appVersion++;
-            localStorage.setItem('panini_app_vf_version', appVersion);
+        function iniciarInterfazNormal() {
+            appVersion = parseInt(localStorage.getItem(savedKey + '_version')) || 1;
             document.title = `Cambaiton App V${appVersion}`;
-
-            const hoy = new Date();
-            const dia = hoy.getDate().toString().padStart(2, '0');
-            const mes = (hoy.getMonth() + 1).toString().padStart(2, '0');
-            const anio = hoy.getFullYear();
-            const fechaStr = `${dia}-${mes}-${anio}`;
-
-            const nombreArchivo = `Figuritas V${appVersion}- FA${faltan}- RE${repetidas} ${fechaStr}.html`;
-
-            const timestamp = Date.now();
-            const scriptInyectado = `const PRELOADED_DATA = ${JSON.stringify(inventory)}; const EXPORT_TIME = ${timestamp}; const PRELOADED_VERSION = ${appVersion};`;
-            document.getElementById('preloaded-data').textContent = scriptInyectado;
-            
-            const estructuraCompleta = "<!DOCTYPE html>\n<html lang=\"es\">\n" + document.documentElement.innerHTML + "\n</html>";
-            
-            const blob = new Blob([estructuraCompleta], { type: 'text/html;charset=utf-8;' });
-            const link = document.createElement("a");
-            link.setAttribute("href", URL.createObjectURL(blob));
-            link.setAttribute("download", nombreArchivo);
-            link.style.visibility = 'hidden';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            
-            mostrarToast(`¡Guardado como: ${nombreArchivo}!`);
+            renderGrid();
+            setFilter('all', document.querySelector('.nav-item.active'));
         }
 
         function updateStickerState(sigla, numStr, newState, isHistoryAction = false) {
             let oldState = inventory[sigla][numStr];
-            
             if (!isHistoryAction && oldState !== newState) {
                 undoStack.push({ sigla, numStr, oldState, newState });
                 redoStack = []; 
             }
-
             inventory[sigla][numStr] = newState;
-            localStorage.setItem('panini_app_vf_final_v10', JSON.stringify(inventory));
+            localStorage.setItem(savedKey, JSON.stringify(inventory));
             
             let btn = document.getElementById(`btn-${sigla}-${numStr}`);
             if(btn) {
@@ -538,25 +388,14 @@ FIFA	FIFA	OK	VERDADERO	VERDADERO	VERDADERO	FALSO	VERDADERO	FALSO	VERDADERO	VERDA
                     btn.removeAttribute('data-rep');
                 }
             }
-            
             updateStats();
             updateCountryHeader(sigla); 
-            
-            if(currentFilter !== 'all') {
-                setTimeout(renderGrid, 250); 
-            }
+            if(currentFilter !== 'all') { setTimeout(renderGrid, 250); }
         }
 
         function handleLeftClick(sigla, numStr) {
             let current = inventory[sigla][numStr];
-            let next;
-
-            if (currentFilter === 'duplicates') {
-                next = current <= 0 ? 0 : current - 1;
-            } else {
-                next = current >= 9 ? 0 : current + 1; 
-            }
-            
+            let next = currentFilter === 'duplicates' ? (current <= 0 ? 0 : current - 1) : (current >= 9 ? 0 : current + 1);
             updateStickerState(sigla, numStr, next);
         }
 
@@ -568,20 +407,14 @@ FIFA	FIFA	OK	VERDADERO	VERDADERO	VERDADERO	FALSO	VERDADERO	FALSO	VERDADERO	VERDA
         }
 
         function deshacer() {
-            if (undoStack.length === 0) {
-                mostrarToast("No hay cambios por deshacer");
-                return;
-            }
+            if (undoStack.length === 0) return;
             let action = undoStack.pop();
             redoStack.push(action);
             updateStickerState(action.sigla, action.numStr, action.oldState, true);
         }
 
         function rehacer() {
-            if (redoStack.length === 0) {
-                mostrarToast("No hay cambios por rehacer");
-                return;
-            }
+            if (redoStack.length === 0) return;
             let action = redoStack.pop();
             undoStack.push(action);
             updateStickerState(action.sigla, action.numStr, action.newState, true);
@@ -589,16 +422,11 @@ FIFA	FIFA	OK	VERDADERO	VERDADERO	VERDADERO	FALSO	VERDADERO	FALSO	VERDADERO	VERDA
 
         function updateStats() {
             let total = 0; let tengo = 0; let repetidas = 0; let faltan = 0;
-            
             Object.values(inventory).forEach(country => {
                 Object.values(country).forEach(val => {
-                    total++;
-                    if(val > 0) tengo++;
-                    if(val === 0) faltan++;
-                    if(val > 1) repetidas += (val - 1); 
+                    total++; if(val > 0) tengo++; if(val === 0) faltan++; if(val > 1) repetidas += (val - 1); 
                 });
             });
-
             let prog = Math.round((tengo / total) * 100) || 0;
             document.getElementById('stat-prog').innerText = `${prog}%`;
             document.getElementById('stat-falt').innerText = faltan;
@@ -609,13 +437,9 @@ FIFA	FIFA	OK	VERDADERO	VERDADERO	VERDADERO	FALSO	VERDADERO	FALSO	VERDADERO	VERDA
             let stickersObj = inventory[sigla];
             let max = Object.keys(stickersObj).length;
             let count = 0; let repetidasCount = 0; let faltantesCount = 0;
-
             Object.values(stickersObj).forEach(val => {
-                if(val > 0) count++;
-                if(val === 0) faltantesCount++;
-                if(val > 1) repetidasCount += (val - 1); 
+                if(val > 0) count++; if(val === 0) faltantesCount++; if(val > 1) repetidasCount += (val - 1); 
             });
-
             let pct = Math.round((count / max) * 100);
             return { count, pct, max, repetidasCount, faltantesCount };
         }
@@ -629,12 +453,7 @@ FIFA	FIFA	OK	VERDADERO	VERDADERO	VERDADERO	FALSO	VERDADERO	FALSO	VERDADERO	VERDA
                 } else if (currentFilter === 'missing') {
                     headerInfo.innerHTML = `<span style="color: var(--falta-text); font-weight: bold; font-size: 13px;">${stats.faltantesCount} Faltantes</span>`;
                 } else {
-                    headerInfo.innerHTML = `
-                        <span>${stats.count}/${stats.max} (${stats.pct}%)</span>
-                        <div class="progress-wrapper">
-                            <div class="progress-fill" style="width: ${stats.pct}%;"></div>
-                        </div>
-                    `;
+                    headerInfo.innerHTML = `<span>${stats.count}/${stats.max} (${stats.pct}%)</span><div class="progress-wrapper"><div class="progress-fill" style="width: ${stats.pct}%;"></div></div>`;
                 }
             }
         }
@@ -642,82 +461,39 @@ FIFA	FIFA	OK	VERDADERO	VERDADERO	VERDADERO	FALSO	VERDADERO	FALSO	VERDADERO	VERDA
         function renderGrid() {
             const container = document.getElementById('app');
             container.innerHTML = '';
-
             COUNTRIES.forEach(c => {
                 let stickersObj = inventory[c.s];
-                
-                if (currentFilter === 'missing') {
-                    let hasMissing = Object.values(stickersObj).includes(0);
-                    if (!hasMissing) return; 
-                } else if (currentFilter === 'duplicates') {
-                    let hasDupes = Object.values(stickersObj).some(v => v > 1);
-                    if (!hasDupes) return; 
-                }
+                if (currentFilter === 'missing' && !Object.values(stickersObj).includes(0)) return;
+                if (currentFilter === 'duplicates' && !Object.values(stickersObj).some(v => v > 1)) return;
 
-                let card = document.createElement('div');
-                card.className = 'country-card';
-                
-                let stats = getCountryStats(c.s);
-                let headerInfoHtml = '';
+                let card = document.createElement('div'); card.className = 'country-card';
+                let stats = getCountryStats(c.s); let headerInfoHtml = '';
+                if (currentFilter === 'duplicates') headerInfoHtml = `<span style="color: var(--repe-bg); font-weight: bold; font-size: 13px;">${stats.repetidasCount} Rep.</span>`;
+                else if (currentFilter === 'missing') headerInfoHtml = `<span style="color: var(--falta-text); font-weight: bold; font-size: 13px;">${stats.faltantesCount} Faltantes</span>`;
+                else headerInfoHtml = `<span>${stats.count}/${stats.max} (${stats.pct}%)</span><div class="progress-wrapper"><div class="progress-fill" style="width: ${stats.pct}%;"></div></div>`;
 
-                if (currentFilter === 'duplicates') {
-                    headerInfoHtml = `<span style="color: var(--repe-bg); font-weight: bold; font-size: 13px;">${stats.repetidasCount} Rep.</span>`;
-                } else if (currentFilter === 'missing') {
-                    headerInfoHtml = `<span style="color: var(--falta-text); font-weight: bold; font-size: 13px;">${stats.faltantesCount} Faltantes</span>`;
-                } else {
-                    headerInfoHtml = `
-                        <span>${stats.count}/${stats.max} (${stats.pct}%)</span>
-                        <div class="progress-wrapper">
-                            <div class="progress-fill" style="width: ${stats.pct}%;"></div>
-                        </div>
-                    `;
-                }
+                let flagHtml = c.i === 'fifa' ? `<span style="font-size: 18px; margin-right: 8px;">🌐</span>` : `<img src="https://flagcdn.com/w40/${c.i}.png" width="24" height="16" style="margin-right: 8px; border-radius: 2px; box-shadow: 0 1px 3px rgba(0,0,0,0.2);">`;
 
-                let flagHtml = c.i === 'fifa' 
-                    ? `<span style="font-size: 18px; margin-right: 8px;">🌐</span>`
-                    : `<img src="https://flagcdn.com/w40/${c.i}.png" width="24" height="16" style="margin-right: 8px; border-radius: 2px; box-shadow: 0 1px 3px rgba(0,0,0,0.2);">`;
-
-                let header = document.createElement('div');
-                header.className = 'country-header';
-                header.innerHTML = `
-                    <div class="country-title">
-                        ${flagHtml}
-                        <span>${c.n}</span> 
-                        <span style="color:#aaa; font-size:12px; margin-left: 5px;">${c.s}</span>
-                    </div>
-                    <div class="country-header-info" id="header-info-${c.s}">
-                        ${headerInfoHtml}
-                    </div>
-                `;
+                let header = document.createElement('div'); header.className = 'country-header';
+                header.innerHTML = `<div class="country-title">${flagHtml}<span>${c.n}</span><span style="color:#aaa; font-size:12px; margin-left: 5px;">${c.s}</span></div><div class="country-header-info" id="header-info-${c.s}">${headerInfoHtml}</div>`;
                 card.appendChild(header);
 
-                let grid = document.createElement('div');
-                grid.className = 'stickers-grid';
-
+                let grid = document.createElement('div'); grid.className = 'stickers-grid';
                 Object.keys(stickersObj).forEach(num => {
                     let state = stickersObj[num];
-                    
                     if (currentFilter === 'missing' && state !== 0) return;
                     if (currentFilter === 'duplicates' && state <= 1) return;
 
-                    let btn = document.createElement('div');
-                    btn.id = `btn-${c.s}-${num}`;
+                    let btn = document.createElement('div'); btn.id = `btn-${c.s}-${num}`;
                     let className = state === 0 ? 'falta' : (state === 1 ? 'tengo' : 'repetida');
-                    btn.className = `sticker ${className}`;
-                    btn.innerText = num.replace('FW', '');
-                    
+                    btn.className = `sticker ${className}`; btn.innerText = num.replace('FW', '');
                     if (state > 1) btn.setAttribute('data-rep', '+' + (state - 1));
-                    
                     btn.onclick = () => handleLeftClick(c.s, num);
                     btn.oncontextmenu = (e) => handleRightClick(e, c.s, num);
-
                     grid.appendChild(btn);
                 });
-
-                card.appendChild(grid);
-                container.appendChild(card);
+                card.appendChild(grid); container.appendChild(card);
             });
-
             updateStats();
         }
 
@@ -725,84 +501,61 @@ FIFA	FIFA	OK	VERDADERO	VERDADERO	VERDADERO	FALSO	VERDADERO	FALSO	VERDADERO	VERDA
             currentFilter = type;
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             if(btnElement) btnElement.classList.add('active');
-            
             let hint = document.getElementById('action-hint');
-            if(type === 'duplicates') {
-                hint.innerHTML = 'Modo: RESTAR figuritas 🔽 (Tócala para quitar repetida)';
-                hint.style.background = '#ffebee';
-                hint.style.color = '#c62828';
-            } else {
-                hint.innerHTML = 'Modo: SUMAR figuritas 👆 (Clic derecho para restar)';
-                hint.style.background = '#e8f5e9';
-                hint.style.color = '#2e7d32';
-            }
-
+            if(type === 'duplicates') { hint.innerHTML = 'Modo: RESTAR figuritas 🔽'; hint.style.background = '#ffebee'; hint.style.color = '#c62828'; }
+            else { hint.innerHTML = 'Modo: SUMAR figuritas 👆'; hint.style.background = '#e8f5e9'; hint.style.color = '#2e7d32'; }
             renderGrid();
         }
 
         function copiarWhatsApp() {
-            let repText = '✅ *REPETIDAS:*\n';
-            let falText = '❌ *ME FALTAN:*\n';
+            let repText = '✅ *REPETIDAS:*\n'; let falText = '❌ *ME FALTAN:*\n';
             let hasRep = false; let hasFal = false;
-
             let faltan = 0; let repetidas = 0;
             Object.values(inventory).forEach(country => {
-                Object.values(country).forEach(val => {
-                    if(val === 0) faltan++;
-                    if(val > 1) repetidas += (val - 1); 
-                });
+                Object.values(country).forEach(val => { if(val === 0) faltan++; if(val > 1) repetidas += (val - 1); });
             });
-
             COUNTRIES.forEach(c => {
-                let stickers = inventory[c.s];
-                let repArr = []; let falArr = [];
+                let stickers = inventory[c.s]; let repArr = []; let falArr = [];
                 Object.keys(stickers).forEach(k => {
-                    let val = stickers[k];
-                    let label = k.replace('FW','');
-                    
-                    if (val === 0) {
-                        falArr.push(label);
-                    } else if (val > 1) {
-                        let repCount = val - 1;
-                        repArr.push(repCount > 1 ? `${label} (x${repCount})` : label);
-                    }
+                    let fill = stickers[k]; let label = k.replace('FW','');
+                    if (fill === 0) falArr.push(label);
+                    else if (fill > 1) repArr.push((fill - 1) > 1 ? `${label} (x${fill - 1})` : label);
                 });
-
                 if (repArr.length > 0) { repText += `${c.s} ${c.f}: ${repArr.join(', ')}\n`; hasRep = true; }
                 if (falArr.length > 0) { falText += `${c.s} ${c.f}: ${falArr.join(', ')}\n`; hasFal = true; }
             });
 
-            let msg = `📱 *Mi Álbum Cambaiton V${appVersion}*\n`;
-            msg += `📉 Faltan: ${faltan} | 📈 Repetidas: ${repetidas}\n\n`;
-            msg += (hasRep ? repText : 'No tengo repetidas.\n') + '\n';
-            msg += (hasFal ? falText : '¡Álbum completo!\n') + '\n';
-            msg += `¡Escríbeme para cambio! 🤝`;
-
-            const el = document.createElement('textarea');
-            el.value = msg;
-            document.body.appendChild(el);
-            el.select();
-            document.execCommand('copy');
-            document.body.removeChild(el);
-            
+            let msg = `📱 *Mi Álbum Cambaiton V${appVersion}*\n📉 Faltan: ${faltan} | 📈 Repetidas: ${repetidas}\n\n`;
+            msg += (hasRep ? repText : 'No tengo repetidas.\n') + '\n' + (hasFal ? falText : '¡Álbum completo!\n') + '\n¡Escríbeme para cambio! 🤝';
+            const el = document.createElement('textarea'); el.value = msg; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el);
             mostrarToast("¡Lista copiada para WhatsApp!");
         }
 
-        function mostrarToast(m) { 
-            let t = document.getElementById("toast"); 
-            t.innerText = m; 
-            t.className = "show"; 
-            setTimeout(function(){ t.className = t.className.replace("show", ""); }, 2500); 
+        function exportarHTML() {
+            let faltan = 0; let repetidas = 0;
+            Object.values(inventory).forEach(country => {
+                Object.values(country).forEach(val => { if(val === 0) faltan++; if(val > 1) repetidas += (val - 1); });
+            });
+            appVersion++; localStorage.setItem(savedKey + '_version', appVersion); document.title = `Cambaiton App V${appVersion}`;
+            const hoy = new Date(); const fechaStr = `${hoy.getDate().toString().padStart(2, '0')}-${(hoy.getMonth() + 1).toString().padStart(2, '0')}-${hoy.getFullYear()}`;
+            const nombreArchivo = `Figuritas V${appVersion}- FA${faltan}- RE${repetidas} ${fechaStr}.html`;
+            const timestamp = Date.now();
+            document.getElementById('preloaded-data').textContent = `const PRELOADED_DATA = ${JSON.stringify(inventory)}; const EXPORT_TIME = ${timestamp}; const PRELOADED_VERSION = ${appVersion};`;
+            const blob = new Blob(["<!DOCTYPE html>\n<html lang=\"es\">\n" + document.documentElement.innerHTML + "\n</html>"], { type: 'text/html;charset=utf-8;' });
+            const link = document.createElement("a"); link.setAttribute("href", URL.createObjectURL(blob)); link.setAttribute("download", nombreArchivo); link.style.visibility = 'hidden';
+            document.body.appendChild(link); link.click(); document.body.removeChild(link);
+            mostrarToast(`¡Guardado como: ${nombreArchivo}!`);
         }
 
+        function mostrarToast(m) { let t = document.getElementById("toast"); t.innerText = m; t.className = "show"; setTimeout(function(){ t.className = t.className.replace("show", ""); }, 2500); }
+        
         function resetApp() {
-            if(confirm('¿Seguro que quieres borrar tus clics recientes y volver al estado inicial del archivo VF?')) {
-                localStorage.removeItem('panini_app_vf_final_v10');
-                localStorage.removeItem('panini_app_vf_version');
+            if(confirm('¿Seguro que quieres borrar la memoria de este celular y volver a elegir perfil?')) {
+                localStorage.removeItem(savedKey);
+                localStorage.removeItem(savedKey + '_version');
                 location.reload();
             }
         }
-
         window.onload = initApp;
     </script>
 </body>
