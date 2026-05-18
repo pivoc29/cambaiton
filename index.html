@@ -194,7 +194,6 @@
         .nav-item.active { color: var(--primary); font-weight: bold; }
         .nav-item span.icon { font-size: 22px; margin-bottom: 4px; }
 
-        /* Botón de WhatsApp - Ajustado */
         .fab {
             position: absolute;
             bottom: 75px;
@@ -243,7 +242,7 @@
                 <button class="btn-icon" onclick="deshacer()" title="Deshacer (Atrás)">↩️</button>
                 <button class="btn-icon" onclick="rehacer()" title="Rehacer (Adelante)">↪️</button>
                 <button class="btn-icon" onclick="exportarHTML()" title="Guardar Copia Local">💾</button>
-                <button class="btn-icon" onclick="resetApp()" title="Resetear Datos">🔄</button>
+                <button class="btn-icon" onclick="resetApp()" title="Resetear Datos a Versión Original">🔄</button>
             </div>
         </div>
 
@@ -402,10 +401,8 @@ FIFA	FIFA	OK	VERDADERO	VERDADERO	VERDADERO	FALSO	VERDADERO	FALSO	VERDADERO	VERDA
         let inventory = {};
         let currentFilter = 'all';
 
-        // --- STACKS PARA DESHACER Y REHACER ---
         let undoStack = [];
         let redoStack = [];
-
         let appVersion = 1;
 
         function initApp() {
