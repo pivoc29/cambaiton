@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Cambaiton App V15 PRO</title>
+    <title>Cambaiton App V17 PRO</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
     <style>
         :root {
@@ -26,28 +26,9 @@
         
         body { margin: 0; padding: 0; background-color: #333; display: flex; justify-content: center; height: 100vh; overflow: hidden; }
 
-        .app-container {
-            width: 100%;
-            max-width: 420px;
-            height: 100%;
-            background-color: var(--bg);
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-        }
+        .app-container { width: 100%; max-width: 420px; height: 100%; background-color: var(--bg); position: relative; display: flex; flex-direction: column; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
 
-        .app-header {
-            background-color: var(--primary);
-            color: white;
-            padding: 12px 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            z-index: 10;
-        }
-        
+        .app-header { background-color: var(--primary); color: white; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); z-index: 10; }
         .header-brand { display: flex; align-items: center; }
         .header-logo { height: 42px; width: auto; display: block; }
         .header-actions { display: flex; gap: 4px; }
@@ -58,27 +39,45 @@
         .stats-bar { background: var(--primary-light); color: white; display: flex; justify-content: space-around; padding: 10px; font-size: 12px; text-align: center; }
         .stats-bar div span { display: block; font-size: 16px; font-weight: bold; margin-top: 2px;}
 
-        #action-hint { text-align: center; padding: 6px; font-size: 12px; font-weight: bold; border-bottom: 1px solid #ddd; transition: background 0.3s, color 0.3s; }
+        /* NUEVA BARRA DE CONTROLES (SORT & LOCK) */
+        .controls-bar { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #fff; border-bottom: 1px solid #ddd; font-size: 13px; z-index: 5; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .controls-bar select { padding: 6px; border-radius: 6px; border: 1px solid #ccc; font-weight: bold; color: #333; outline: none; background: #f9f9f9; }
+        .btn-lock-toggle { padding: 6px 12px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 4px; }
+        .btn-lock-toggle.unlocked { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+        .btn-lock-toggle.locked { background: #ffebee; color: #c62828; border: 1px solid #ef9a9a; }
 
-        .app-content { flex: 1; overflow-y: auto; padding: 15px; padding-bottom: 80px; }
+        #action-hint { text-align: center; padding: 6px; font-size: 12px; font-weight: bold; transition: background 0.3s, color 0.3s; }
 
-        .country-card { background: var(--card); border-radius: 12px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); overflow: hidden; }
+        .app-content { flex: 1; overflow-y: auto; padding: 12px; padding-bottom: 80px; }
+
+        .country-card { background: var(--card); border-radius: 12px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); overflow: hidden; border: 1px solid #f0f0f0; }
         .country-header { padding: 10px 15px; background: #fafafa; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
-        .country-title { font-weight: 600; font-size: 16px; display: flex; align-items: center; }
+        .country-title { font-weight: 600; font-size: 15px; display: flex; align-items: center; }
         .flag { font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif; font-size: 1.3em; margin-right: 6px; display: inline-block; }
         .country-header-info { text-align: right; font-size: 11px; color: #777; font-weight: 600; }
+        .group-badge { background: #e0e0e0; color: #555; border-radius: 4px; padding: 2px 5px; font-size: 10px; font-weight: bold; margin-left: 6px; }
         
         .progress-wrapper { width: 70px; background: #e0e0e0; border-radius: 4px; height: 6px; margin-top: 5px; overflow: hidden; }
         .progress-fill { height: 100%; background: var(--tengo-bg); transition: width 0.3s ease; }
 
         .stickers-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; padding: 12px; }
         .sticker { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px; border-radius: 8px; cursor: pointer; transition: transform 0.1s; user-select: none; -webkit-touch-callout: none; }
-        .sticker:active { transform: scale(0.9); }
+        .sticker:active { transform: scale(0.95); }
+        .sticker.locked-ui:active { transform: scale(1); cursor: default; } /* No scale if locked */
         
         .falta { background: var(--falta-bg); color: var(--falta-text); border: 2px solid var(--falta-border); }
         .tengo { background: var(--tengo-bg); color: var(--tengo-text); border: 2px solid var(--tengo-bg); }
         .repetida { background: var(--repe-bg); color: var(--repe-text); border: 2px solid #ffeb3b; position: relative; }
         .repetida::after { content: attr(data-rep); position: absolute; top: -6px; right: -6px; background: #ffeb3b; color: #000; width: 18px; height: 18px; border-radius: 50%; font-size: 11px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(0,0,0,0.2); font-weight: bold; }
+
+        /* ACORDEONES PARA REPETIDAS */
+        .accordion-tier { background: var(--card); border-radius: 12px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); overflow: hidden; border: 1px solid #ddd; }
+        .accordion-tier summary { padding: 12px 15px; background: var(--primary-light); color: white; font-weight: bold; font-size: 14px; cursor: pointer; list-style: none; outline: none; user-select: none; display: flex; justify-content: space-between; align-items: center; }
+        .accordion-tier summary::-webkit-details-marker { display: none; }
+        .accordion-tier summary::after { content: '▼'; font-size: 12px; }
+        .accordion-tier[open] summary::after { content: '▲'; }
+        .accordion-tier[open] summary { border-bottom: 1px solid #ddd; }
+        .accordion-content { padding-top: 10px; background: #fdfdfd; }
 
         .bottom-nav { position: absolute; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 10px 0; padding-bottom: env(safe-area-inset-bottom, 10px); box-shadow: 0 -2px 10px rgba(0,0,0,0.05); border-top: 1px solid #eee; }
         .nav-item { display: flex; flex-direction: column; align-items: center; color: #888; font-size: 11px; cursor: pointer; width: 33%; border: none; background: transparent; }
@@ -92,10 +91,9 @@
         #toast { visibility: hidden; min-width: 200px; background-color: rgba(0,0,0,0.8); color: #fff; text-align: center; border-radius: 20px; padding: 12px; position: absolute; z-index: 200; left: 50%; bottom: 140px; transform: translateX(-50%); font-size: 14px; }
         #toast.show { visibility: visible; animation: fadein 0.3s, fadeout 0.3s 2s forwards; }
         
-        /* ESTILOS DE LOS MODALES */
         .modal-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; display: flex; align-items: center; justify-content: center; visibility: hidden; opacity: 0; transition: opacity 0.3s; }
         .modal-overlay.show { visibility: visible; opacity: 1; }
-        .modal-content { background: white; padding: 25px; border-radius: 16px; width: 85%; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .modal-content { background: white; padding: 25px; border-radius: 16px; width: 85%; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto;}
         .modal-content h2 { margin-top: 0; color: var(--primary); font-size: 20px; margin-bottom: 10px; }
         .modal-content p { color: #555; font-size: 13px; margin-bottom: 20px; }
         .modal-btn { display: block; width: 100%; padding: 12px; margin-bottom: 10px; border: none; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; transition: transform 0.1s; }
@@ -111,7 +109,7 @@
 </head>
 <body>
 
-    <script id="preloaded-data">const PRELOADED_DATA = {"ALG":{"1":2,"2":2,"3":2,"4":2,"5":2,"6":2,"7":2,"8":2,"9":3,"10":2,"11":1,"12":3,"13":1,"14":3,"15":2,"16":0,"17":3,"18":2,"19":1,"20":0},"ARG":{"1":1,"2":6,"3":2,"4":1,"5":0,"6":2,"7":1,"8":0,"9":1,"10":0,"11":1,"12":2,"13":0,"14":2,"15":1,"16":2,"17":2,"18":1,"19":1,"20":1},"AUS":{"1":1,"2":2,"3":1,"4":2,"5":2,"6":3,"7":1,"8":1,"9":1,"10":2,"11":0,"12":1,"13":2,"14":1,"15":4,"16":1,"17":3,"18":1,"19":0,"20":0},"AUT":{"1":1,"2":2,"3":3,"4":1,"5":1,"6":2,"7":3,"8":1,"9":1,"10":1,"11":3,"12":1,"13":3,"14":1,"15":2,"16":2,"17":2,"18":1,"19":3,"20":4},"BEL":{"1":0,"2":1,"3":1,"4":1,"5":3,"6":1,"7":3,"8":2,"9":3,"10":1,"11":2,"12":2,"13":1,"14":2,"15":1,"16":2,"17":1,"18":1,"19":1,"20":2},"BIH":{"1":1,"2":0,"3":2,"4":1,"5":1,"6":1,"7":1,"8":0,"9":1,"10":1,"11":3,"12":0,"13":1,"14":0,"15":2,"16":1,"17":1,"18":0,"19":0,"20":1},"BRA":{"1":2,"2":2,"3":2,"4":1,"5":1,"6":2,"7":2,"8":3,"9":2,"10":2,"11":4,"12":1,"13":1,"14":0,"15":1,"16":1,"17":1,"18":0,"19":2,"20":1},"CAN":{"1":1,"2":2,"3":1,"4":2,"5":1,"6":2,"7":0,"8":3,"9":2,"10":2,"11":1,"12":3,"13":3,"14":2,"15":1,"16":0,"17":0,"18":0,"19":1,"20":0},"CIV":{"1":1,"2":0,"3":0,"4":1,"5":0,"6":1,"7":0,"8":1,"9":1,"10":1,"11":1,"12":2,"13":1,"14":1,"15":1,"16":1,"17":0,"18":1,"19":1,"20":0},"COD":{"1":1,"2":0,"3":1,"4":0,"5":2,"6":1,"7":2,"8":1,"9":2,"10":1,"11":2,"12":2,"13":2,"14":1,"15":1,"16":3,"17":3,"18":1,"19":2,"20":2},"COL":{"1":1,"2":0,"3":0,"4":1,"5":0,"6":2,"7":1,"8":2,"9":1,"10":1,"11":1,"12":2,"13":1,"14":1,"15":1,"16":1,"17":2,"18":2,"19":0,"20":2},"CPV":{"1":2,"2":1,"3":1,"4":0,"5":2,"6":1,"7":2,"8":0,"9":2,"10":1,"11":2,"12":1,"13":1,"14":2,"15":1,"16":2,"17":1,"18":2,"19":0,"20":3},"CRO":{"1":1,"2":0,"3":1,"4":1,"5":1,"6":0,"7":1,"8":1,"9":1,"10":0,"11":1,"12":1,"13":1,"14":0,"15":2,"16":2,"17":1,"18":1,"19":2,"20":2},"CUW":{"1":1,"2":2,"3":2,"4":2,"5":1,"6":3,"7":3,"8":1,"9":1,"10":2,"11":2,"12":1,"13":3,"14":1,"15":2,"16":2,"17":1,"18":0,"19":2,"20":3},"CZE":{"1":1,"2":2,"3":2,"4":1,"5":1,"6":1,"7":4,"8":1,"9":1,"10":0,"11":3,"12":2,"13":1,"14":2,"15":1,"16":2,"17":0,"18":2,"19":3,"20":1},"ECU":{"1":4,"2":1,"3":2,"4":2,"5":2,"6":1,"7":1,"8":1,"9":2,"10":1,"11":1,"12":1,"13":1,"14":1,"15":1,"16":1,"17":1,"18":1,"19":2,"20":1},"EGY":{"1":1,"2":1,"3":2,"4":1,"5":2,"6":2,"7":1,"8":2,"9":1,"10":2,"11":2,"12":1,"13":0,"14":1,"15":2,"16":3,"17":1,"18":1,"19":2,"20":3},"ENG":{"1":0,"2":2,"3":2,"4":3,"5":3,"6":2,"7":2,"8":3,"9":4,"10":2,"11":2,"12":2,"13":1,"14":2,"15":1,"16":0,"17":3,"18":1,"19":1,"20":1},"ESP":{"1":2,"2":3,"3":1,"4":1,"5":0,"6":4,"7":2,"8":2,"9":0,"10":3,"11":2,"12":3,"13":1,"14":1,"15":1,"16":2,"17":2,"18":1,"19":2,"20":4},"FRA":{"1":2,"2":2,"3":1,"4":1,"5":3,"6":2,"7":2,"8":2,"9":5,"10":2,"11":1,"12":3,"13":3,"14":1,"15":0,"16":1,"17":4,"18":2,"19":1,"20":2},"GER":{"1":1,"2":3,"3":3,"4":0,"5":1,"6":4,"7":2,"8":0,"9":1,"10":3,"11":1,"12":1,"13":2,"14":0,"15":2,"16":1,"17":1,"18":0,"19":0,"20":1},"GHA":{"1":0,"2":0,"3":1,"4":1,"5":1,"6":1,"7":1,"8":0,"9":1,"10":0,"11":1,"12":1,"13":2,"14":0,"15":0,"16":0,"17":1,"18":0,"19":1,"20":1},"HAI":{"1":0,"2":1,"3":3,"4":2,"5":1,"6":1,"7":2,"8":1,"9":1,"10":2,"11":3,"12":0,"13":1,"14":0,"15":1,"16":2,"17":0,"18":0,"19":2,"20":2},"IRN":{"1":3,"2":0,"3":2,"4":3,"5":2,"6":2,"7":1,"8":3,"9":2,"10":1,"11":1,"12":4,"13":2,"14":2,"15":1,"16":1,"17":2,"18":1,"19":0,"20":0},"IRQ":{"1":2,"2":0,"3":2,"4":2,"5":1,"6":0,"7":1,"8":2,"9":1,"10":1,"11":1,"12":2,"13":2,"14":1,"15":0,"16":1,"17":2,"18":2,"19":1,"20":3},"JOR":{"1":1,"2":3,"3":0,"4":1,"5":1,"6":1,"7":3,"8":2,"9":1,"10":2,"11":3,"12":1,"13":1,"14":1,"15":2,"16":4,"17":1,"18":0,"19":1,"20":3},"JPN":{"1":1,"2":1,"3":0,"4":2,"5":2,"6":1,"7":1,"8":2,"9":2,"10":1,"11":1,"12":1,"13":2,"14":2,"15":1,"16":1,"17":1,"18":2,"19":1,"20":1},"KOR":{"1":3,"2":1,"3":1,"4":2,"5":1,"6":1,"7":2,"8":0,"9":2,"10":1,"11":1,"12":1,"13":2,"14":2,"15":1,"16":1,"17":0,"18":2,"19":1,"20":0},"KSA":{"1":0,"2":0,"3":2,"4":1,"5":1,"6":0,"7":2,"8":1,"9":1,"10":0,"11":1,"12":1,"13":0,"14":3,"15":0,"16":0,"17":1,"18":3,"19":1,"20":1},"MAR":{"1":2,"2":1,"3":2,"4":0,"5":1,"6":1,"7":2,"8":0,"9":1,"10":0,"11":2,"12":0,"13":1,"14":0,"15":3,"16":1,"17":0,"18":0,"19":4,"20":1},"MEX":{"1":2,"2":1,"3":1,"4":4,"5":2,"6":1,"7":1,"8":3,"9":1,"10":0,"11":0,"12":2,"13":1,"14":1,"15":1,"16":1,"17":1,"18":2,"19":1,"20":1},"NED":{"1":1,"2":1,"3":2,"4":1,"5":1,"6":3,"7":3,"8":0,"9":1,"10":2,"11":2,"12":0,"13":0,"14":2,"15":1,"16":2,"17":2,"18":2,"19":1,"20":4},"NOR":{"1":1,"2":2,"3":2,"4":1,"5":3,"6":2,"7":2,"8":1,"9":2,"10":1,"11":2,"12":2,"13":1,"14":2,"15":1,"16":2,"17":3,"18":2,"19":2,"20":2},"NZL":{"1":1,"2":2,"3":2,"4":2,"5":2,"6":2,"7":2,"8":2,"9":2,"10":2,"11":2,"12":2,"13":2,"14":1,"15":3,"16":2,"17":3,"18":1,"19":3,"20":2},"PAN":{"1":0,"2":3,"3":2,"4":3,"5":2,"6":3,"7":2,"8":2,"9":2,"10":2,"11":2,"12":2,"13":1,"14":1,"15":2,"16":2,"17":2,"18":1,"19":2,"20":2},"PAR":{"1":1,"2":2,"3":1,"4":2,"5":1,"6":2,"7":2,"8":2,"9":1,"10":2,"11":3,"12":2,"13":2,"14":1,"15":2,"16":6,"17":3,"18":2,"19":2,"20":5},"POR":{"1":2,"2":2,"3":2,"4":1,"5":5,"6":2,"7":1,"8":3,"9":2,"10":1,"11":2,"12":3,"13":0,"14":2,"15":1,"16":2,"17":3,"18":2,"19":2,"20":2},"QAT":{"1":4,"2":2,"3":2,"4":2,"5":2,"6":2,"7":3,"8":2,"9":2,"10":2,"11":1,"12":3,"13":2,"14":2,"15":2,"16":1,"17":1,"18":1,"19":1,"20":1},"RSA":{"1":1,"2":1,"3":2,"4":2,"5":1,"6":1,"7":2,"8":2,"9":4,"10":3,"11":0,"12":4,"13":1,"14":2,"15":1,"16":1,"17":1,"18":2,"19":2,"20":1},"SCO":{"1":2,"2":4,"3":2,"4":1,"5":3,"6":5,"7":2,"8":2,"9":2,"10":2,"11":3,"12":2,"13":1,"14":2,"15":2,"16":0,"17":1,"18":2,"19":2,"20":1},"SEN":{"1":2,"2":2,"3":2,"4":2,"5":4,"6":1,"7":1,"8":2,"9":3,"10":2,"11":1,"12":2,"13":2,"14":0,"15":1,"16":3,"17":1,"18":3,"19":1,"20":1},"SUI":{"1":1,"2":2,"3":1,"4":1,"5":0,"6":2,"7":0,"8":1,"9":2,"10":0,"11":1,"12":1,"13":1,"14":1,"15":1,"16":1,"17":0,"18":1,"19":0,"20":1},"SWE":{"1":0,"2":1,"3":4,"4":2,"5":1,"6":0,"7":3,"8":0,"9":1,"10":3,"11":1,"12":0,"13":1,"14":2,"15":3,"16":2,"17":1,"18":2,"19":1,"20":1},"TUN":{"1":2,"2":0,"3":2,"4":0,"5":1,"6":0,"7":1,"8":1,"9":1,"10":2,"11":1,"12":2,"13":1,"14":1,"15":2,"16":0,"17":3,"18":1,"19":1,"20":1},"TUR":{"1":2,"2":0,"3":1,"4":1,"5":2,"6":2,"7":1,"8":2,"9":1,"10":1,"11":1,"12":0,"13":2,"14":3,"15":1,"16":0,"17":2,"18":3,"19":1,"20":1},"URU":{"1":2,"2":2,"3":1,"4":1,"5":1,"6":3,"7":0,"8":0,"9":1,"10":3,"11":1,"12":1,"13":3,"14":2,"15":2,"16":0,"17":1,"18":2,"19":1,"20":1},"USA":{"1":3,"2":1,"3":0,"4":0,"5":0,"6":1,"7":1,"8":1,"9":1,"10":2,"11":1,"12":0,"13":2,"14":2,"15":1,"16":0,"17":2,"18":0,"19":3,"20":1},"UZB":{"1":1,"2":1,"3":1,"4":1,"5":1,"6":1,"7":0,"8":2,"9":1,"10":0,"11":2,"12":1,"13":1,"14":1,"15":1,"16":1,"17":1,"18":1,"19":4,"20":2},"FIFA":{"FW00":1,"FW01":2,"FW02":4,"FW03":0,"FW04":2,"FW05":1,"FW06":1,"FW07":2,"FW08":3,"FW09":2,"FW10":2,"FW11":4,"FW12":2,"FW13":3,"FW14":4,"FW15":1,"FW16":5,"FW17":2,"FW18":1,"FW19":2},"CC":{"1":0,"2":0,"3":0,"4":1,"5":1,"6":0,"7":0,"8":0,"9":0,"10":0,"11":0,"12":0,"13":0,"14":0}}; const EXPORT_TIME = Date.now(); const PRELOADED_VERSION = 15;</script>
+    <script id="preloaded-data">const PRELOADED_DATA = {"ALG":{"1":2,"2":2,"3":1,"4":2,"5":2,"6":2,"7":2,"8":2,"9":3,"10":2,"11":1,"12":3,"13":1,"14":3,"15":2,"16":1,"17":3,"18":2,"19":1,"20":1},"ARG":{"1":1,"2":6,"3":2,"4":1,"5":0,"6":2,"7":1,"8":0,"9":1,"10":0,"11":1,"12":2,"13":1,"14":2,"15":1,"16":2,"17":2,"18":1,"19":0,"20":1},"AUS":{"1":1,"2":1,"3":1,"4":2,"5":2,"6":3,"7":1,"8":1,"9":1,"10":2,"11":1,"12":1,"13":2,"14":1,"15":4,"16":1,"17":3,"18":1,"19":0,"20":0},"AUT":{"1":1,"2":2,"3":3,"4":1,"5":1,"6":2,"7":3,"8":1,"9":1,"10":1,"11":3,"12":1,"13":2,"14":1,"15":2,"16":2,"17":2,"18":1,"19":3,"20":4},"BEL":{"1":1,"2":1,"3":1,"4":1,"5":3,"6":1,"7":3,"8":2,"9":3,"10":1,"11":2,"12":2,"13":1,"14":2,"15":1,"16":2,"17":1,"18":1,"19":1,"20":2},"BIH":{"1":1,"2":0,"3":2,"4":1,"5":1,"6":1,"7":1,"8":0,"9":1,"10":1,"11":3,"12":1,"13":1,"14":1,"15":2,"16":1,"17":1,"18":0,"19":0,"20":1},"BRA":{"1":1,"2":2,"3":2,"4":1,"5":1,"6":2,"7":1,"8":3,"9":2,"10":1,"11":4,"12":1,"13":1,"14":1,"15":1,"16":1,"17":1,"18":1,"19":2,"20":1},"CAN":{"1":1,"2":1,"3":1,"4":2,"5":1,"6":1,"7":1,"8":3,"9":2,"10":2,"11":1,"12":3,"13":3,"14":2,"15":1,"16":0,"17":1,"18":1,"19":1,"20":0},"CIV":{"1":1,"2":1,"3":1,"4":1,"5":1,"6":1,"7":1,"8":1,"9":1,"10":1,"11":1,"12":2,"13":1,"14":1,"15":1,"16":1,"17":1,"18":1,"19":1,"20":0},"COD":{"1":1,"2":0,"3":1,"4":1,"5":2,"6":1,"7":2,"8":1,"9":1,"10":1,"11":2,"12":2,"13":2,"14":1,"15":1,"16":2,"17":3,"18":1,"19":1,"20":2},"COL":{"1":1,"2":1,"3":1,"4":1,"5":1,"6":2,"7":1,"8":2,"9":1,"10":1,"11":1,"12":2,"13":1,"14":1,"15":1,"16":1,"17":2,"18":2,"19":1,"20":2},"CPV":{"1":2,"2":1,"3":1,"4":0,"5":2,"6":1,"7":2,"8":1,"9":2,"10":1,"11":2,"12":1,"13":1,"14":2,"15":1,"16":2,"17":1,"18":2,"19":1,"20":3},"CRO":{"1":1,"2":1,"3":1,"4":1,"5":1,"6":0,"7":1,"8":1,"9":1,"10":0,"11":1,"12":1,"13":1,"14":0,"15":2,"16":2,"17":1,"18":1,"19":2,"20":2},"CUW":{"1":1,"2":2,"3":1,"4":1,"5":1,"6":3,"7":2,"8":1,"9":1,"10":2,"11":2,"12":1,"13":3,"14":1,"15":2,"16":1,"17":1,"18":0,"19":2,"20":2},"CZE":{"1":1,"2":2,"3":2,"4":1,"5":1,"6":1,"7":4,"8":1,"9":1,"10":0,"11":3,"12":2,"13":1,"14":2,"15":1,"16":2,"17":1,"18":2,"19":3,"20":1},"ECU":{"1":4,"2":1,"3":2,"4":2,"5":2,"6":1,"7":1,"8":1,"9":2,"10":1,"11":1,"12":1,"13":1,"14":1,"15":1,"16":1,"17":1,"18":1,"19":1,"20":1},"EGY":{"1":1,"2":1,"3":2,"4":1,"5":2,"6":2,"7":1,"8":2,"9":1,"10":2,"11":1,"12":1,"13":1,"14":1,"15":1,"16":3,"17":1,"18":1,"19":2,"20":3},"ENG":{"1":1,"2":2,"3":2,"4":3,"5":3,"6":2,"7":2,"8":3,"9":4,"10":2,"11":1,"12":1,"13":1,"14":2,"15":1,"16":1,"17":3,"18":1,"19":1,"20":1},"ESP":{"1":2,"2":3,"3":1,"4":1,"5":0,"6":4,"7":2,"8":2,"9":1,"10":3,"11":2,"12":3,"13":1,"14":1,"15":1,"16":2,"17":1,"18":1,"19":2,"20":4},"FRA":{"1":2,"2":2,"3":1,"4":1,"5":3,"6":2,"7":2,"8":1,"9":5,"10":2,"11":1,"12":3,"13":3,"14":1,"15":1,"16":1,"17":4,"18":2,"19":1,"20":2},"GER":{"1":1,"2":3,"3":3,"4":1,"5":1,"6":4,"7":1,"8":1,"9":1,"10":3,"11":1,"12":1,"13":2,"14":1,"15":2,"16":1,"17":1,"18":1,"19":0,"20":1},"GHA":{"1":0,"2":0,"3":1,"4":1,"5":1,"6":1,"7":1,"8":1,"9":1,"10":0,"11":1,"12":1,"13":2,"14":1,"15":0,"16":0,"17":1,"18":1,"19":1,"20":1},"HAI":{"1":0,"2":1,"3":3,"4":2,"5":1,"6":1,"7":2,"8":1,"9":1,"10":2,"11":3,"12":1,"13":1,"14":1,"15":1,"16":2,"17":1,"18":1,"19":1,"20":2},"IRN":{"1":3,"2":1,"3":2,"4":3,"5":2,"6":2,"7":1,"8":3,"9":2,"10":1,"11":1,"12":4,"13":2,"14":2,"15":1,"16":1,"17":2,"18":1,"19":1,"20":1},"IRQ":{"1":2,"2":1,"3":2,"4":2,"5":1,"6":0,"7":1,"8":1,"9":1,"10":1,"11":1,"12":2,"13":2,"14":1,"15":1,"16":1,"17":3,"18":2,"19":1,"20":3},"JOR":{"1":1,"2":3,"3":1,"4":1,"5":1,"6":1,"7":3,"8":2,"9":1,"10":1,"11":3,"12":1,"13":1,"14":1,"15":1,"16":4,"17":1,"18":0,"19":1,"20":3},"JPN":{"1":1,"2":1,"3":0,"4":2,"5":2,"6":1,"7":1,"8":2,"9":2,"10":1,"11":1,"12":1,"13":1,"14":2,"15":1,"16":1,"17":1,"18":2,"19":1,"20":1},"KOR":{"1":3,"2":1,"3":1,"4":2,"5":1,"6":1,"7":2,"8":0,"9":2,"10":1,"11":1,"12":1,"13":2,"14":2,"15":1,"16":1,"17":0,"18":2,"19":1,"20":0},"KSA":{"1":0,"2":0,"3":2,"4":1,"5":1,"6":0,"7":1,"8":1,"9":1,"10":1,"11":1,"12":1,"13":0,"14":3,"15":0,"16":1,"17":1,"18":3,"19":1,"20":1},"MAR":{"1":2,"2":1,"3":2,"4":1,"5":1,"6":1,"7":1,"8":1,"9":1,"10":1,"11":2,"12":0,"13":1,"14":1,"15":3,"16":1,"17":1,"18":0,"19":4,"20":1},"MEX":{"1":2,"2":1,"3":1,"4":3,"5":2,"6":1,"7":1,"8":3,"9":1,"10":1,"11":1,"12":2,"13":1,"14":1,"15":1,"16":1,"17":1,"18":2,"19":1,"20":1},"NED":{"1":1,"2":1,"3":2,"4":1,"5":1,"6":3,"7":3,"8":0,"9":1,"10":2,"11":2,"12":1,"13":0,"14":2,"15":1,"16":2,"17":2,"18":2,"19":1,"20":4},"NOR":{"1":1,"2":1,"3":2,"4":1,"5":3,"6":1,"7":2,"8":1,"9":2,"10":1,"11":2,"12":2,"13":1,"14":2,"15":1,"16":1,"17":3,"18":2,"19":1,"20":2},"NZL":{"1":1,"2":2,"3":2,"4":2,"5":2,"6":2,"7":1,"8":1,"9":2,"10":2,"11":2,"12":1,"13":2,"14":1,"15":3,"16":1,"17":3,"18":1,"19":3,"20":2},"PAN":{"1":1,"2":3,"3":2,"4":3,"5":2,"6":3,"7":2,"8":2,"9":2,"10":2,"11":2,"12":2,"13":1,"14":1,"15":2,"16":2,"17":2,"18":1,"19":2,"20":2},"PAR":{"1":1,"2":2,"3":1,"4":2,"5":1,"6":2,"7":2,"8":2,"9":1,"10":2,"11":3,"12":2,"13":2,"14":1,"15":2,"16":6,"17":3,"18":2,"19":2,"20":5},"POR":{"1":2,"2":2,"3":2,"4":1,"5":5,"6":2,"7":1,"8":3,"9":2,"10":1,"11":2,"12":3,"13":1,"14":2,"15":1,"16":2,"17":3,"18":2,"19":2,"20":2},"QAT":{"1":4,"2":2,"3":2,"4":2,"5":2,"6":2,"7":3,"8":2,"9":2,"10":2,"11":1,"12":3,"13":2,"14":2,"15":2,"16":1,"17":1,"18":1,"19":1,"20":1},"RSA":{"1":1,"2":1,"3":2,"4":2,"5":1,"6":1,"7":2,"8":2,"9":4,"10":3,"11":1,"12":4,"13":1,"14":2,"15":1,"16":1,"17":1,"18":2,"19":2,"20":1},"SCO":{"1":2,"2":4,"3":2,"4":1,"5":3,"6":5,"7":2,"8":2,"9":2,"10":2,"11":3,"12":2,"13":1,"14":1,"15":2,"16":1,"17":1,"18":2,"19":2,"20":1},"SEN":{"1":2,"2":2,"3":3,"4":2,"5":4,"6":1,"7":1,"8":2,"9":3,"10":2,"11":1,"12":1,"13":2,"14":0,"15":1,"16":2,"17":1,"18":3,"19":1,"20":1},"SUI":{"1":1,"2":2,"3":1,"4":1,"5":1,"6":1,"7":1,"8":1,"9":2,"10":0,"11":1,"12":1,"13":1,"14":1,"15":1,"16":1,"17":0,"18":1,"19":0,"20":1},"SWE":{"1":1,"2":1,"3":3,"4":2,"5":1,"6":0,"7":3,"8":1,"9":1,"10":3,"11":1,"12":0,"13":1,"14":2,"15":3,"16":1,"17":1,"18":2,"19":1,"20":1},"TUN":{"1":2,"2":0,"3":2,"4":0,"5":1,"6":0,"7":1,"8":1,"9":1,"10":2,"11":1,"12":2,"13":1,"14":1,"15":2,"16":1,"17":3,"18":1,"19":1,"20":1},"TUR":{"1":2,"2":1,"3":1,"4":1,"5":2,"6":2,"7":1,"8":2,"9":1,"10":1,"11":1,"12":0,"13":2,"14":2,"15":1,"16":0,"17":2,"18":3,"19":1,"20":1},"URU":{"1":2,"2":2,"3":1,"4":1,"5":1,"6":3,"7":0,"8":0,"9":1,"10":3,"11":1,"12":1,"13":3,"14":2,"15":2,"16":1,"17":1,"18":2,"19":0,"20":1},"USA":{"1":3,"2":1,"3":1,"4":0,"5":0,"6":1,"7":1,"8":1,"9":1,"10":2,"11":1,"12":0,"13":2,"14":2,"15":1,"16":1,"17":1,"18":1,"19":3,"20":0},"UZB":{"1":1,"2":1,"3":1,"4":1,"5":1,"6":1,"7":1,"8":2,"9":1,"10":1,"11":2,"12":1,"13":1,"14":1,"15":1,"16":1,"17":1,"18":1,"19":4,"20":2},"FIFA":{"FW00":1,"FW01":2,"FW02":4,"FW03":1,"FW04":2,"FW05":1,"FW06":1,"FW07":1,"FW08":2,"FW09":2,"FW10":2,"FW11":4,"FW12":2,"FW13":3,"FW14":4,"FW15":1,"FW16":5,"FW17":1,"FW18":1,"FW19":2},"CC":{"1":1,"2":1,"3":1,"4":1,"5":1,"6":1,"7":1,"8":1,"9":1,"10":1,"11":1,"12":1,"13":1,"14":1}}; const EXPORT_TIME = Date.now(); const PRELOADED_VERSION = 17;</script>
 
     <div class="app-container">
         
@@ -145,9 +143,9 @@
 
         <div id="qr-modal" class="modal-overlay">
             <div class="modal-content">
-                <h2 id="qr-title" style="margin-bottom: 10px;">🔲 Mi Código QR</h2>
+                <h2 id="qr-title" style="margin-bottom: 10px;">🔲 QR</h2>
                 <p>Muestra esto para que escaneen tu lista.</p>
-                <div id="qr-container"></div>
+                <div id="qr-container"><canvas height="230" width="230"></canvas></div>
                 <br>
                 <button class="modal-btn" style="background:#eee; color:#333; display:inline-block;" onclick="cerrarModalQR()">Cerrar</button>
             </div>
@@ -178,13 +176,25 @@
             <div>Repetidas <span id="stat-rep">0</span></div>
         </div>
         
-        <div id="action-hint" style="background: rgb(255, 235, 238); color: rgb(198, 40, 40);">Modo: RESTAR figuritas 🔽 (Mantén presionado para SUMAR)</div>
+        <div class="controls-bar">
+            <select id="sort-select" onchange="renderGrid()">
+                <option value="original">📋 Orden Original</option>
+                <option value="group">🏆 Por Grupo</option>
+                <option value="name">🔤 Por Nombre</option>
+                <option value="initials">🔠 Por Siglas</option>
+            </select>
+            <button id="btn-lock" class="btn-lock-toggle unlocked" onclick="toggleLock()">
+                <span id="lock-icon">🔓</span> <span id="lock-text">Libre</span>
+            </button>
+        </div>
+
+        <div id="action-hint" style="background: rgb(227, 242, 253); color: rgb(13, 71, 161);">Modo: Marcar como TENGO 👆</div>
 
         <div class="app-content" id="app"></div>
 
         <button class="fab" onclick="abrirModalExportar()" title="Compartir/Exportar">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/>
+                <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"></path>
             </svg>
         </button>
 
@@ -198,34 +208,32 @@
     </div>
 
     <script>
+        // Mapeo asignado con Grupos A-L y Especiales
         const COUNTRIES = [
-            { s: 'ALG', n: 'Argelia', f: '🇩🇿', i: 'dz' }, { s: 'ARG', n: 'Argentina', f: '🇦🇷', i: 'ar' }, { s: 'AUS', n: 'Australia', f: '🇦🇺', i: 'au' },
-            { s: 'AUT', n: 'Austria', f: '🇦🇹', i: 'at' }, { s: 'BEL', n: 'Bélgica', f: '🇧🇪', i: 'be' }, { s: 'BIH', n: 'Bosnia', f: '🇧🇦', i: 'ba' },
-            { s: 'BRA', n: 'Brasil', f: '🇧🇷', i: 'br' }, { s: 'CAN', n: 'Canadá', f: '🇨🇦', i: 'ca' }, { s: 'CIV', n: 'Costa de Marfil', f: '🇨🇮', i: 'ci' },
-            { s: 'COD', n: 'RD Congo', f: '🇨🇩', i: 'cd' }, { s: 'COL', n: 'Colombia', f: '🇨🇴', i: 'co' }, { s: 'CPV', n: 'Cabo Verde', f: '🇨🇻', i: 'cv' },
-            { s: 'CRO', n: 'Croacia', f: '🇭🇷', i: 'hr' }, { s: 'CUW', n: 'Curazao', f: '🇨🇼', i: 'cw' }, { s: 'CZE', n: 'Rep. Checa', f: '🇨🇿', i: 'cz' },
-            { s: 'ECU', n: 'Ecuador', f: '🇪🇨', i: 'ec' }, { s: 'EGY', n: 'Egipto', f: '🇪🇬', i: 'eg' }, { s: 'ENG', n: 'Inglaterra', f: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', i: 'gb-eng' },
-            { s: 'ESP', n: 'España', f: '🇪🇸', i: 'es' }, { s: 'FRA', n: 'Francia', f: '🇫🇷', i: 'fr' }, { s: 'GER', n: 'Alemania', f: '🇩🇪', i: 'de' },
-            { s: 'GHA', n: 'Ghana', f: '🇬🇭', i: 'gh' }, { s: 'HAI', n: 'Haití', f: '🇭🇹', i: 'ht' }, { s: 'IRN', n: 'Irán', f: '🇮🇷', i: 'ir' },
-            { s: 'IRQ', n: 'Irak', f: '🇮🇶', i: 'iq' }, { s: 'JOR', n: 'Jordania', f: '🇯🇴', i: 'jo' }, { s: 'JPN', n: 'Japón', f: '🇯🇵', i: 'jp' },
-            { s: 'KOR', n: 'Corea del Sur', f: '🇰🇷', i: 'kr' }, { s: 'KSA', n: 'Arabia Saudita', f: '🇸🇦', i: 'sa' }, { s: 'MAR', n: 'Marruecos', f: '🇲🇦', i: 'ma' },
-            { s: 'MEX', n: 'México', f: '🇲🇽', i: 'mx' }, { s: 'NED', n: 'Países Bajos', f: '🇳🇱', i: 'nl' }, { s: 'NOR', n: 'Noruega', f: '🇳🇴', i: 'no' },
-            { s: 'NZL', n: 'Nueva Zelanda', f: '🇳🇿', i: 'nz' }, { s: 'PAN', n: 'Panamá', f: '🇵🇦', i: 'pa' }, { s: 'PAR', n: 'Paraguay', f: '🇵🇾', i: 'py' },
-            { s: 'POR', n: 'Portugal', f: '🇵🇹', i: 'pt' }, { s: 'QAT', n: 'Qatar', f: '🇶🇦', i: 'qa' }, { s: 'RSA', n: 'Sudáfrica', f: '🇿🇦', i: 'za' },
-            { s: 'SCO', n: 'Escocia', f: '🏴󠁧󠁢󠁳󠁣󠁴󠁿', i: 'gb-sct' }, { s: 'SEN', n: 'Senegal', f: '🇸🇳', i: 'sn' }, { s: 'SUI', n: 'Suiza', f: '🇨🇭', i: 'ch' },
-            { s: 'SWE', n: 'Suecia', f: '🇸🇪', i: 'se' }, { s: 'TUN', n: 'Túnez', f: '🇹🇳', i: 'tn' }, { s: 'TUR', n: 'Turquía', f: '🇹🇷', i: 'tr' },
-            { s: 'URU', n: 'Uruguay', f: '🇺🇾', i: 'uy' }, { s: 'USA', n: 'EE.UU.', f: '🇺🇸', i: 'us' }, { s: 'UZB', n: 'Uzbekistán', f: '🇺🇿', i: 'uz' },
-            { s: 'FIFA', n: 'FIFA', f: '🌐', i: 'fifa' }, { s: 'CC', n: 'Coca-Cola', f: '🥤', i: 'coca' }
+            { s: 'ALG', n: 'Argelia', f: '🇩🇿', i: 'dz', g: 'A' }, { s: 'ARG', n: 'Argentina', f: '🇦🇷', i: 'ar', g: 'A' }, { s: 'AUS', n: 'Australia', f: '🇦🇺', i: 'au', g: 'A' }, { s: 'AUT', n: 'Austria', f: '🇦🇹', i: 'at', g: 'A' },
+            { s: 'BEL', n: 'Bélgica', f: '🇧🇪', i: 'be', g: 'B' }, { s: 'BIH', n: 'Bosnia', f: '🇧🇦', i: 'ba', g: 'B' }, { s: 'BRA', n: 'Brasil', f: '🇧🇷', i: 'br', g: 'B' }, { s: 'CAN', n: 'Canadá', f: '🇨🇦', i: 'ca', g: 'B' },
+            { s: 'CIV', n: 'Costa de Marfil', f: '🇨🇮', i: 'ci', g: 'C' }, { s: 'COD', n: 'RD Congo', f: '🇨🇩', i: 'cd', g: 'C' }, { s: 'COL', n: 'Colombia', f: '🇨🇴', i: 'co', g: 'C' }, { s: 'CPV', n: 'Cabo Verde', f: '🇨🇻', i: 'cv', g: 'C' },
+            { s: 'CRO', n: 'Croacia', f: '🇭🇷', i: 'hr', g: 'D' }, { s: 'CUW', n: 'Curazao', f: '🇨🇼', i: 'cw', g: 'D' }, { s: 'CZE', n: 'Rep. Checa', f: '🇨🇿', i: 'cz', g: 'D' }, { s: 'ECU', n: 'Ecuador', f: '🇪🇨', i: 'ec', g: 'D' },
+            { s: 'EGY', n: 'Egipto', f: '🇪🇬', i: 'eg', g: 'E' }, { s: 'ENG', n: 'Inglaterra', f: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', i: 'gb-eng', g: 'E' }, { s: 'ESP', n: 'España', f: '🇪🇸', i: 'es', g: 'E' }, { s: 'FRA', n: 'Francia', f: '🇫🇷', i: 'fr', g: 'E' },
+            { s: 'GER', n: 'Alemania', f: '🇩🇪', i: 'de', g: 'F' }, { s: 'GHA', n: 'Ghana', f: '🇬🇭', i: 'gh', g: 'F' }, { s: 'HAI', n: 'Haití', f: '🇭🇹', i: 'ht', g: 'F' }, { s: 'IRN', n: 'Irán', f: '🇮🇷', i: 'ir', g: 'F' },
+            { s: 'IRQ', n: 'Irak', f: '🇮🇶', i: 'iq', g: 'G' }, { s: 'JOR', n: 'Jordania', f: '🇯🇴', i: 'jo', g: 'G' }, { s: 'JPN', n: 'Japón', f: '🇯🇵', i: 'jp', g: 'G' }, { s: 'KOR', n: 'Corea del Sur', f: '🇰🇷', i: 'kr', g: 'G' },
+            { s: 'KSA', n: 'Arabia Saudita', f: '🇸🇦', i: 'sa', g: 'H' }, { s: 'MAR', n: 'Marruecos', f: '🇲🇦', i: 'ma', g: 'H' }, { s: 'MEX', n: 'México', f: '🇲🇽', i: 'mx', g: 'H' }, { s: 'NED', n: 'Países Bajos', f: '🇳🇱', i: 'nl', g: 'H' },
+            { s: 'NOR', n: 'Noruega', f: '🇳🇴', i: 'no', g: 'I' }, { s: 'NZL', n: 'Nueva Zelanda', f: '🇳🇿', i: 'nz', g: 'I' }, { s: 'PAN', n: 'Panamá', f: '🇵🇦', i: 'pa', g: 'I' }, { s: 'PAR', n: 'Paraguay', f: '🇵🇾', i: 'py', g: 'I' },
+            { s: 'POR', n: 'Portugal', f: '🇵🇹', i: 'pt', g: 'J' }, { s: 'QAT', n: 'Qatar', f: '🇶🇦', i: 'qa', g: 'J' }, { s: 'RSA', n: 'Sudáfrica', f: '🇿🇦', i: 'za', g: 'J' }, { s: 'SCO', n: 'Escocia', f: '🏴󠁧󠁢󠁳󠁣󠁴󠁿', i: 'gb-sct', g: 'J' },
+            { s: 'SEN', n: 'Senegal', f: '🇸🇳', i: 'sn', g: 'K' }, { s: 'SUI', n: 'Suiza', f: '🇨🇭', i: 'ch', g: 'K' }, { s: 'SWE', n: 'Suecia', f: '🇸🇪', i: 'se', g: 'K' }, { s: 'TUN', n: 'Túnez', f: '🇹🇳', i: 'tn', g: 'K' },
+            { s: 'TUR', n: 'Turquía', f: '🇹🇷', i: 'tr', g: 'L' }, { s: 'URU', n: 'Uruguay', f: '🇺🇾', i: 'uy', g: 'L' }, { s: 'USA', n: 'EE.UU.', f: '🇺🇸', i: 'us', g: 'L' }, { s: 'UZB', n: 'Uzbekistán', f: '🇺🇿', i: 'uz', g: 'L' },
+            { s: 'FIFA', n: 'FIFA', f: '🌐', i: 'fifa', g: 'M' }, { s: 'CC', n: 'Coca-Cola', f: '🥤', i: 'coca', g: 'N' }
         ];
 
         let inventory = {};
         let currentFilter = 'all';
         let undoStack = [];
         let redoStack = [];
-        let appVersion = 15;
+        let appVersion = 17;
+        let isAppLocked = false;
         
         let scrollPositions = { 'all': 0, 'missing': 0, 'duplicates': 0 };
-        const savedKey = 'cambaiton_app_v15_pro'; 
+        const savedKey = 'cambaiton_app_v17_pro'; 
 
         function initApp() {
             let saved = localStorage.getItem(savedKey);
@@ -265,11 +273,28 @@
         }
 
         function iniciarInterfazNormal() {
-            appVersion = parseInt(localStorage.getItem(savedKey + '_version')) || 15;
+            appVersion = parseInt(localStorage.getItem(savedKey + '_version')) || 17;
             document.title = `Cambaiton App V${appVersion} PRO`;
-            
-            renderGrid();
             setFilter('all', document.querySelector('.nav-item.active'));
+        }
+
+        function toggleLock() {
+            isAppLocked = !isAppLocked;
+            let btn = document.getElementById('btn-lock');
+            let icon = document.getElementById('lock-icon');
+            let text = document.getElementById('lock-text');
+            
+            if(isAppLocked) {
+                btn.className = 'btn-lock-toggle locked';
+                icon.innerText = '🔒';
+                text.innerText = 'Bloqueo';
+                mostrarToast("Pantalla bloqueada. Navega sin riesgos.");
+            } else {
+                btn.className = 'btn-lock-toggle unlocked';
+                icon.innerText = '🔓';
+                text.innerText = 'Libre';
+                mostrarToast("Pantalla desbloqueada. Puedes editar.");
+            }
         }
 
         function updateStickerState(sigla, numStr, newState, isHistoryAction = false) {
@@ -281,16 +306,20 @@
             inventory[sigla][numStr] = newState;
             localStorage.setItem(savedKey, JSON.stringify(inventory));
             
-            let btn = document.getElementById(`btn-${sigla}-${numStr}`);
-            if(btn) {
-                let className = newState === 0 ? 'falta' : (newState === 1 ? 'tengo' : 'repetida');
-                btn.className = `sticker ${className}`;
-                if (newState > 1) {
-                    btn.setAttribute('data-rep', '+' + (newState - 1));
-                } else {
-                    btn.removeAttribute('data-rep');
+            // Actualizar todos los botones con ese número (puede estar en diferentes acordeones)
+            ['all', 'tier1', 'tier2'].forEach(prefix => {
+                let btn = document.getElementById(`btn-${prefix}-${sigla}-${numStr}`);
+                if(btn) {
+                    let className = newState === 0 ? 'falta' : (newState === 1 ? 'tengo' : 'repetida');
+                    btn.className = `sticker ${className}`;
+                    if (newState > 1) {
+                        btn.setAttribute('data-rep', '+' + (newState - 1));
+                    } else {
+                        btn.removeAttribute('data-rep');
+                    }
                 }
-            }
+            });
+
             updateStats();
             updateCountryHeader(sigla); 
             
@@ -314,7 +343,7 @@
             let current = inventory[sigla][numStr];
             let next = current;
 
-            if (currentFilter === 'all') { // Álbum
+            if (currentFilter === 'all') {
                 if (current > 1) {
                     next = current - 1; 
                 } else if (current === 1) {
@@ -322,9 +351,9 @@
                         next = 0; 
                     }
                 }
-            } else if (currentFilter === 'duplicates') { // Repetidas
+            } else if (currentFilter === 'duplicates') {
                 next = current >= 9 ? 9 : current + 1; 
-            } else if (currentFilter === 'missing') { // Faltantes
+            } else if (currentFilter === 'missing') {
                 next = 1; 
             }
 
@@ -335,9 +364,9 @@
             let current = inventory[sigla][numStr];
             let next = current;
 
-            if (currentFilter === 'all') { // Álbum
+            if (currentFilter === 'all') {
                 next = current >= 9 ? 9 : current + 1; 
-            } else if (currentFilter === 'duplicates') { // Repetidas
+            } else if (currentFilter === 'duplicates') {
                 next = current <= 1 ? 1 : current - 1; 
             }
 
@@ -346,6 +375,7 @@
 
         function deshacer() {
             if (undoStack.length === 0) return;
+            if (isAppLocked) { mostrarToast("Desbloquea para deshacer"); return; }
             let action = undoStack.pop();
             redoStack.push(action);
             updateStickerState(action.sigla, action.numStr, action.oldState, true);
@@ -353,6 +383,7 @@
 
         function rehacer() {
             if (redoStack.length === 0) return;
+            if (isAppLocked) { mostrarToast("Desbloquea para rehacer"); return; }
             let action = redoStack.pop();
             undoStack.push(action);
             updateStickerState(action.sigla, action.numStr, action.newState, true);
@@ -389,138 +420,168 @@
 
         function updateCountryHeader(sigla) {
             let stats = getCountryStats(sigla);
-            let headerInfo = document.getElementById(`header-info-${sigla}`);
-            if(headerInfo) {
-                if (currentFilter === 'duplicates') {
-                    headerInfo.innerHTML = `<span style="color: var(--repe-bg); font-weight: bold; font-size: 13px;">${stats.repetidasCount} Rep.</span>`;
-                } else if (currentFilter === 'missing') {
-                    headerInfo.innerHTML = `<span style="color: var(--falta-text); font-weight: bold; font-size: 13px;">${stats.faltantesCount} Faltantes</span>`;
-                } else {
-                    headerInfo.innerHTML = `<span>${stats.count}/${stats.max} (${stats.pct}%)</span><div class="progress-wrapper"><div class="progress-fill" style="width: ${stats.pct}%;"></div></div>`;
+            ['all', 'tier1', 'tier2'].forEach(prefix => {
+                let headerInfo = document.getElementById(`header-info-${prefix}-${sigla}`);
+                if(headerInfo) {
+                    if (currentFilter === 'duplicates') {
+                        headerInfo.innerHTML = `<span style="color: var(--repe-bg); font-weight: bold; font-size: 13px;">${stats.repetidasCount} Rep.</span>`;
+                    } else if (currentFilter === 'missing') {
+                        headerInfo.innerHTML = `<span style="color: var(--falta-text); font-weight: bold; font-size: 13px;">${stats.faltantesCount} Faltantes</span>`;
+                    } else {
+                        headerInfo.innerHTML = `<span>${stats.count}/${stats.max} (${stats.pct}%)</span><div class="progress-wrapper"><div class="progress-fill" style="width: ${stats.pct}%;"></div></div>`;
+                    }
                 }
-            }
+            });
+        }
+
+        function createCountryCard(c, stickersObj, prefix, filterFn) {
+            let card = document.createElement('div'); card.className = 'country-card';
+            let stats = getCountryStats(c.s); 
+            let headerInfoHtml = '';
+            
+            if (currentFilter === 'duplicates') headerInfoHtml = `<span style="color: var(--repe-bg); font-weight: bold; font-size: 13px;">${stats.repetidasCount} Rep.</span>`;
+            else if (currentFilter === 'missing') headerInfoHtml = `<span style="color: var(--falta-text); font-weight: bold; font-size: 13px;">${stats.faltantesCount} Faltantes</span>`;
+            else headerInfoHtml = `<span>${stats.count}/${stats.max} (${stats.pct}%)</span><div class="progress-wrapper"><div class="progress-fill" style="width: ${stats.pct}%;"></div></div>`;
+
+            let flagHtml = '';
+            if (c.i === 'fifa') flagHtml = `<span style="font-size: 18px; margin-right: 8px;">🌐</span>`;
+            else if (c.i === 'coca') flagHtml = `<span style="font-size: 18px; margin-right: 8px;">🥤</span>`;
+            else flagHtml = `<img src="https://flagcdn.com/w40/${c.i}.png" width="24" height="16" style="margin-right: 8px; border-radius: 2px; box-shadow: 0 1px 3px rgba(0,0,0,0.2);">`;
+
+            let header = document.createElement('div'); header.className = 'country-header';
+            let groupBadge = `<span class="group-badge">Gr. ${c.g}</span>`;
+            
+            header.innerHTML = `<div class="country-title">${flagHtml}<span>${c.n}</span><span style="color:#aaa; font-size:12px; margin-left: 5px;">${c.s}</span>${groupBadge}</div><div class="country-header-info" id="header-info-${prefix}-${c.s}">${headerInfoHtml}</div>`;
+            card.appendChild(header);
+
+            let grid = document.createElement('div'); grid.className = 'stickers-grid';
+            Object.keys(stickersObj).forEach(num => {
+                let state = stickersObj[num];
+                
+                if (!filterFn(state, num)) return; 
+
+                let btn = document.createElement('div'); btn.id = `btn-${prefix}-${c.s}-${num}`;
+                let className = state === 0 ? 'falta' : (state === 1 ? 'tengo' : 'repetida');
+                btn.className = `sticker ${className}`; 
+                
+                let btnText = num;
+                if (c.s === 'FIFA') {
+                    if (num === 'FW00') btnText = '00';
+                    else btnText = 'FWC' + parseInt(num.replace('FW', ''), 10);
+                } else if (c.s === 'CC') {
+                    btnText = 'CC' + num;
+                }
+                btn.innerText = btnText;
+
+                if (state > 1) btn.setAttribute('data-rep', '+' + (state - 1));
+                
+                // --- TÁCTIL IPHONE (MANTIENE PROTECCIÓN) ---
+                let pressTimer = null;
+                let isLongPress = false;
+                let isDrag = false;
+                let startX = 0; let startY = 0;
+
+                const onTouchStart = (e) => {
+                    if(isAppLocked) return;
+                    isDrag = false; isLongPress = false;
+                    startX = e.touches[0].clientX; startY = e.touches[0].clientY;
+                    
+                    pressTimer = setTimeout(() => {
+                        isLongPress = true; handleRightClick(c.s, num);
+                        if (navigator.vibrate) navigator.vibrate(50);
+                    }, 400);
+                };
+
+                const onTouchMove = (e) => {
+                    if(isAppLocked) return;
+                    if (!isDrag) {
+                        let diffX = Math.abs(e.touches[0].clientX - startX);
+                        let diffY = Math.abs(e.touches[0].clientY - startY);
+                        if (diffX > 10 || diffY > 10) { isDrag = true; clearTimeout(pressTimer); }
+                    }
+                };
+
+                const onTouchEnd = (e) => {
+                    if(isAppLocked) return;
+                    clearTimeout(pressTimer);
+                    if (!isDrag && !isLongPress) {
+                        if (e.cancelable) e.preventDefault(); 
+                        handleLeftClick(c.s, num);
+                    } else if (isLongPress) {
+                        if (e.cancelable) e.preventDefault();
+                    }
+                };
+
+                btn.addEventListener('touchstart', onTouchStart, { passive: true });
+                btn.addEventListener('touchmove', onTouchMove, { passive: true });
+                btn.addEventListener('touchend', onTouchEnd, { passive: false });
+
+                btn.onmousedown = (e) => {
+                    if(isAppLocked) return;
+                    if(e.button !== 0) return;
+                    isDrag = false; isLongPress = false;
+                    pressTimer = setTimeout(() => { isLongPress = true; handleRightClick(c.s, num); }, 400);
+                };
+                btn.onmousemove = () => { if(isAppLocked) return; isDrag = true; clearTimeout(pressTimer); };
+                btn.onmouseup = (e) => {
+                    if(isAppLocked) return;
+                    clearTimeout(pressTimer);
+                    if(!isDrag && !isLongPress && e.button === 0) handleLeftClick(c.s, num);
+                };
+                btn.oncontextmenu = (e) => { e.preventDefault(); };
+                
+                grid.appendChild(btn);
+            });
+            card.appendChild(grid); 
+            return card;
         }
 
         function renderGrid() {
             const container = document.getElementById('app');
-            container.innerHTML = '';
-            COUNTRIES.forEach(c => {
-                let stickersObj = inventory[c.s];
-                if (!stickersObj) return;
+            let sortType = document.getElementById('sort-select') ? document.getElementById('sort-select').value : 'original';
+            
+            let sortedCountries = [...COUNTRIES];
+            if (sortType === 'name') sortedCountries.sort((a,b) => a.n.localeCompare(b.n));
+            if (sortType === 'initials') sortedCountries.sort((a,b) => a.s.localeCompare(b.s));
+            if (sortType === 'group') sortedCountries.sort((a,b) => a.g.localeCompare(b.g) || a.n.localeCompare(b.n));
+
+            if (currentFilter === 'duplicates') {
+                container.innerHTML = `
+                    <details open class="accordion-tier">
+                        <summary>Nivel 1: Todas las Repetidas (+1 o más)</summary>
+                        <div class="accordion-content" id="tier1-container"></div>
+                    </details>
+                    <details class="accordion-tier">
+                        <summary>Nivel 2: Súper Repetidas (x2 o más)</summary>
+                        <div class="accordion-content" id="tier2-container"></div>
+                    </details>
+                `;
+                const tier1Container = document.getElementById('tier1-container');
+                const tier2Container = document.getElementById('tier2-container');
                 
-                if (currentFilter === 'missing' && !Object.entries(stickersObj).some(([k,v]) => v === 0 && !(c.s === 'FIFA' && k === 'FW00'))) return;
-                if (currentFilter === 'duplicates' && !Object.values(stickersObj).some(v => v > 1)) return;
-
-                let card = document.createElement('div'); card.className = 'country-card';
-                let stats = getCountryStats(c.s); let headerInfoHtml = '';
-                if (currentFilter === 'duplicates') headerInfoHtml = `<span style="color: var(--repe-bg); font-weight: bold; font-size: 13px;">${stats.repetidasCount} Rep.</span>`;
-                else if (currentFilter === 'missing') headerInfoHtml = `<span style="color: var(--falta-text); font-weight: bold; font-size: 13px;">${stats.faltantesCount} Faltantes</span>`;
-                else headerInfoHtml = `<span>${stats.count}/${stats.max} (${stats.pct}%)</span><div class="progress-wrapper"><div class="progress-fill" style="width: ${stats.pct}%;"></div></div>`;
-
-                let flagHtml = '';
-                if (c.i === 'fifa') flagHtml = `<span style="font-size: 18px; margin-right: 8px;">🌐</span>`;
-                else if (c.i === 'coca') flagHtml = `<span style="font-size: 18px; margin-right: 8px;">🥤</span>`;
-                else flagHtml = `<img src="https://flagcdn.com/w40/${c.i}.png" width="24" height="16" style="margin-right: 8px; border-radius: 2px; box-shadow: 0 1px 3px rgba(0,0,0,0.2);">`;
-
-                let header = document.createElement('div'); header.className = 'country-header';
-                header.innerHTML = `<div class="country-title">${flagHtml}<span>${c.n}</span><span style="color:#aaa; font-size:12px; margin-left: 5px;">${c.s}</span></div><div class="country-header-info" id="header-info-${c.s}">${headerInfoHtml}</div>`;
-                card.appendChild(header);
-
-                let grid = document.createElement('div'); grid.className = 'stickers-grid';
-                Object.keys(stickersObj).forEach(num => {
-                    let state = stickersObj[num];
-                    
-                    if (currentFilter === 'missing' && (state !== 0 || (c.s === 'FIFA' && num === 'FW00'))) return;
-                    if (currentFilter === 'duplicates' && state <= 1) return;
-
-                    let btn = document.createElement('div'); btn.id = `btn-${c.s}-${num}`;
-                    let className = state === 0 ? 'falta' : (state === 1 ? 'tengo' : 'repetida');
-                    btn.className = `sticker ${className}`; 
-                    
-                    let btnText = num;
-                    if (c.s === 'FIFA') {
-                        if (num === 'FW00') btnText = '00';
-                        else btnText = 'FWC' + parseInt(num.replace('FW', ''), 10);
-                    } else if (c.s === 'CC') {
-                        btnText = 'CC' + num;
+                sortedCountries.forEach(c => {
+                    let obj = inventory[c.s];
+                    if (!obj) return;
+                    if (Object.values(obj).some(v => v > 1)) {
+                        tier1Container.appendChild(createCountryCard(c, obj, 'tier1', (v) => v > 1));
                     }
-                    btn.innerText = btnText;
-
-                    if (state > 1) btn.setAttribute('data-rep', '+' + (state - 1));
-                    
-                    // --- MOTOR TÁCTIL MEJORADO PARA IPHONE ---
-                    let pressTimer = null;
-                    let isLongPress = false;
-                    let isDrag = false;
-                    let startX = 0;
-                    let startY = 0;
-
-                    const onTouchStart = (e) => {
-                        isDrag = false;
-                        isLongPress = false;
-                        startX = e.touches[0].clientX;
-                        startY = e.touches[0].clientY;
-                        
-                        pressTimer = setTimeout(() => {
-                            isLongPress = true;
-                            handleRightClick(c.s, num);
-                            if (navigator.vibrate) navigator.vibrate(50);
-                        }, 400);
-                    };
-
-                    const onTouchMove = (e) => {
-                        if (!isDrag) {
-                            let diffX = Math.abs(e.touches[0].clientX - startX);
-                            let diffY = Math.abs(e.touches[0].clientY - startY);
-                            // Si se mueve más de 10px, anula el click/long-click (es un scroll)
-                            if (diffX > 10 || diffY > 10) {
-                                isDrag = true;
-                                clearTimeout(pressTimer);
-                            }
-                        }
-                    };
-
-                    const onTouchEnd = (e) => {
-                        clearTimeout(pressTimer);
-                        // Si no fue arrastre ni pulsación larga, entonces es un CLIC CORTO limpio
-                        if (!isDrag && !isLongPress) {
-                            if (e.cancelable) e.preventDefault(); 
-                            handleLeftClick(c.s, num);
-                        } else if (isLongPress) {
-                            if (e.cancelable) e.preventDefault();
-                        }
-                    };
-
-                    btn.addEventListener('touchstart', onTouchStart, { passive: true });
-                    btn.addEventListener('touchmove', onTouchMove, { passive: true });
-                    btn.addEventListener('touchend', onTouchEnd, { passive: false });
-
-                    // Respaldo para uso en PC
-                    btn.onmousedown = (e) => {
-                        if(e.button !== 0) return;
-                        isDrag = false;
-                        isLongPress = false;
-                        pressTimer = setTimeout(() => {
-                            isLongPress = true;
-                            handleRightClick(c.s, num);
-                        }, 400);
-                    };
-                    btn.onmousemove = () => {
-                        isDrag = true;
-                        clearTimeout(pressTimer);
-                    };
-                    btn.onmouseup = (e) => {
-                        clearTimeout(pressTimer);
-                        if(!isDrag && !isLongPress && e.button === 0) {
-                            handleLeftClick(c.s, num);
-                        }
-                    };
-                    btn.oncontextmenu = (e) => { e.preventDefault(); };
-                    
-                    grid.appendChild(btn);
+                    if (Object.values(obj).some(v => v > 2)) {
+                        tier2Container.appendChild(createCountryCard(c, obj, 'tier2', (v) => v > 2));
+                    }
                 });
-                card.appendChild(grid); container.appendChild(card);
-            });
+            } else {
+                container.innerHTML = '';
+                sortedCountries.forEach(c => {
+                    let obj = inventory[c.s];
+                    if (!obj) return;
+                    if (currentFilter === 'missing' && !Object.entries(obj).some(([k,v]) => v === 0 && !(c.s === 'FIFA' && k === 'FW00'))) return;
+                    
+                    container.appendChild(createCountryCard(c, obj, 'all', (v, k) => {
+                        if (currentFilter === 'missing') return v === 0 && !(c.s === 'FIFA' && k === 'FW00');
+                        return true;
+                    }));
+                });
+            }
             updateStats();
         }
 
@@ -535,31 +596,23 @@
             let hint = document.getElementById('action-hint');
             if(type === 'all') { 
                 hint.innerHTML = 'Modo: RESTAR figuritas 🔽 (Mantén presionado para SUMAR)'; 
-                hint.style.background = '#ffebee'; 
-                hint.style.color = '#c62828'; 
+                hint.style.background = '#ffebee'; hint.style.color = '#c62828'; 
             } else if (type === 'duplicates') { 
                 hint.innerHTML = 'Modo: SUMAR repetidas 🔼 (Mantén presionado para RESTAR)'; 
-                hint.style.background = '#e8f5e9'; 
-                hint.style.color = '#2e7d32'; 
+                hint.style.background = '#e8f5e9'; hint.style.color = '#2e7d32'; 
             } else {
                 hint.innerHTML = 'Modo: Marcar como TENGO 👆';
-                hint.style.background = '#e3f2fd'; 
-                hint.style.color = '#0d47a1';
+                hint.style.background = '#e3f2fd'; hint.style.color = '#0d47a1';
             }
             
             renderGrid();
             setTimeout(() => appContainer.scrollTop = scrollPositions[currentFilter], 0);
         }
 
-        function abrirModalExportar() {
-            document.getElementById('export-modal').classList.add('show');
-        }
+        function abrirModalExportar() { document.getElementById('export-modal').classList.add('show'); }
+        function cerrarModalExportar() { document.getElementById('export-modal').classList.remove('show'); }
 
-        function cerrarModalExportar() {
-            document.getElementById('export-modal').classList.remove('show');
-        }
-
-        // --- GENERACIÓN DE QR EN DOS PARTES ---
+        // --- QR ---
         function abrirModalQR(tipo) {
             cerrarModalExportar();
             let data = "";
@@ -578,27 +631,17 @@
             container.innerHTML = ''; 
 
             if (typeof QRious !== 'undefined') {
-                // Usa la librería local si cargó
                 let canvas = document.createElement('canvas');
                 container.appendChild(canvas);
-                new QRious({
-                    element: canvas,
-                    value: data,
-                    size: 230,
-                    level: 'L'
-                });
+                new QRious({ element: canvas, value: data, size: 230, level: 'L' });
             } else {
-                // Fallback seguro a la API de QRServer
                 let url = `https://api.qrserver.com/v1/create-qr-code/?size=230x230&data=${encodeURIComponent(data)}`;
                 container.innerHTML = `<img src="${url}" width="230" height="230" alt="QR">`;
             }
-            
             document.getElementById('qr-modal').classList.add('show');
         }
 
-        function cerrarModalQR() {
-            document.getElementById('qr-modal').classList.remove('show');
-        }
+        function cerrarModalQR() { document.getElementById('qr-modal').classList.remove('show'); }
 
         function getCompressedDataFaltantes() {
             let faltantes = [];
@@ -630,10 +673,9 @@
             return "✅REPES:\n" + repetidas.join(' | ');
         }
 
+        // --- WHATSAPP ---
         function generarWA(tipo) {
-            let repText = '✅ *REPETIDAS:*\n';
-            let falText = '❌ *ME FALTAN:*\n';
-            let multText = '';
+            let repText = '✅ *REPETIDAS:*\n'; let falText = '❌ *ME FALTAN:*\n'; let multText = '';
             let hasRep = false, hasFal = false, hasMult = false;
             let faltan = 0, repetidas = 0;
 
@@ -651,20 +693,14 @@
                     let fill = stickers[k]; 
                     let label = k;
                     if (c.s === 'FIFA') {
-                        if (k === 'FW00') label = '00';
-                        else label = 'FWC' + parseInt(k.replace('FW', ''), 10);
-                    } else if (c.s === 'CC') {
-                        label = 'CC' + k;
-                    }
+                        if (k === 'FW00') label = '00'; else label = 'FWC' + parseInt(k.replace('FW', ''), 10);
+                    } else if (c.s === 'CC') { label = 'CC' + k; }
                     
                     if (fill === 0 && !(c.s === 'FIFA' && k === 'FW00')) falArr.push(label);
                     else if (fill > 1) {
                         let extra = fill - 1;
                         repArr.push(extra > 1 ? `${label} (x${extra})` : label);
-                        
-                        if (fill > 2) {
-                            multArr.push(`${label} (x${extra})`);
-                        }
+                        if (fill > 2) multArr.push(`${label} (x${extra})`);
                     }
                 });
                 if (repArr.length > 0) { repText += `${c.s} ${c.f}: ${repArr.join(', ')}\n`; hasRep = true; }
@@ -684,15 +720,8 @@
                 msg += (hasMult ? multText : 'No tengo repetidas extra en este momento.\n') + '\n¡Escríbeme para cambio! 🤝';
             }
 
-            const el = document.createElement('textarea'); 
-            el.value = msg; 
-            document.body.appendChild(el); 
-            el.select(); 
-            document.execCommand('copy'); 
-            document.body.removeChild(el);
-            
-            cerrarModalExportar();
-            mostrarToast("¡Mensaje copiado para WhatsApp!");
+            const el = document.createElement('textarea'); el.value = msg; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el);
+            cerrarModalExportar(); mostrarToast("¡Mensaje copiado para WhatsApp!");
         }
 
         function exportarHTML() {
@@ -711,20 +740,11 @@
             const blob = new Blob(["<!DOCTYPE html>\n<html lang=\"es\">\n" + document.documentElement.innerHTML + "\n</html>"], { type: 'text/html;charset=utf-8;' });
             const link = document.createElement("a"); link.setAttribute("href", URL.createObjectURL(blob)); link.setAttribute("download", nombreArchivo); link.style.visibility = 'hidden';
             document.body.appendChild(link); link.click(); document.body.removeChild(link);
-            
-            cerrarModalExportar();
-            mostrarToast(`¡Guardado como: ${nombreArchivo}!`);
+            cerrarModalExportar(); mostrarToast(`¡Guardado como: ${nombreArchivo}!`);
         }
 
         function mostrarToast(m) { let t = document.getElementById("toast"); t.innerText = m; t.className = "show"; setTimeout(function(){ t.className = t.className.replace("show", ""); }, 2500); }
-        
-        function resetApp() {
-            if(confirm('¿Seguro que quieres borrar la memoria de este celular y volver a cargar el perfil base?')) {
-                localStorage.removeItem(savedKey);
-                localStorage.removeItem(savedKey + '_version');
-                location.reload();
-            }
-        }
+        function resetApp() { if(confirm('¿Seguro que quieres borrar la memoria de este celular y volver a cargar el perfil base?')) { localStorage.removeItem(savedKey); localStorage.removeItem(savedKey + '_version'); location.reload(); } }
         window.onload = initApp;
     </script>
 </body>
